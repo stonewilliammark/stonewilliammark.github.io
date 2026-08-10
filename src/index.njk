@@ -1,0 +1,80 @@
+---
+layout: base.njk
+permalink: /
+---
+{% from "partials/work-card.njk" import card %}
+{%- set selected = collections.caseStudies -%}
+
+<section class="container hero">
+  <p class="eyebrow">{{ site.eyebrow }}</p>
+  <h1 class="h1">{{ site.headline }}</h1>
+  <p class="deck">{{ site.intro }}</p>
+  <div class="btn-row">
+    <a class="btn btn--primary" href="/work/">View work</a>
+    <a class="btn btn--secondary" href="{{ site.cv }}" download>Download CV</a>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="selected-work-heading">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2" id="selected-work-heading">Selected work</h2>
+      <a class="link-arrow" href="/work/">View all work <span aria-hidden="true">&rarr;</span></a>
+    </div>
+
+    {#- Carousel: CSS scroll-snap does the work. The arrows and dots are
+        progressive enhancement — with JS off this is still a usable,
+        swipeable, fully readable list. -#}
+    <div class="carousel" data-carousel>
+      <div class="carousel__track" data-carousel-track tabindex="0"
+           role="group" aria-label="Selected case studies">
+        {%- for item in selected %}
+        <div class="carousel__slide" data-carousel-slide>
+          {{ card(item, "h3") }}
+        </div>
+        {%- endfor %}
+      </div>
+      <div class="carousel__controls" hidden data-carousel-controls>
+        <ul class="carousel__dots" data-carousel-dots></ul>
+        <div class="carousel__arrows">
+          <button class="carousel__arrow" type="button" data-carousel-prev aria-label="Previous case study">
+            <span aria-hidden="true">&larr;</span>
+          </button>
+          <button class="carousel__arrow" type="button" data-carousel-next aria-label="Next case study">
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--surface" id="about" aria-labelledby="about-heading">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2" id="about-heading">About me</h2>
+    </div>
+    <div class="about">
+      <div class="card__body">
+        <h3 class="card__title">Hey it&rsquo;s Will, thanks for popping by</h3>
+        <div class="prose">
+          <p>
+            I find my joy in creating interactions that feel natural and meaningful.
+            It&rsquo;s incredibly fulfilling to see someone&rsquo;s eyes light up in that
+            &ldquo;aha&rdquo; moment when they connect with my work. When I&rsquo;m not
+            creating experiences for others, I&rsquo;m capturing moments with my camera
+            or unwinding in the waves.
+          </p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="{{ site.linkedin }}"
+             target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
+        </div>
+      </div>
+      <div class="about__media">
+        <img class="about__portrait" src="/img/about/portrait.jpg"
+             alt="Portrait of {{ site.name }}" width="1200" height="900">
+      </div>
+    </div>
+  </div>
+</section>

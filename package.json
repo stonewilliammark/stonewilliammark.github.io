@@ -1,0 +1,20 @@
+{
+  "name": "stonewilliam-portfolio",
+  "version": "1.0.0",
+  "description": "UX portfolio for William Stone — stonewilliam.com",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "audit:deps": "npm audit --audit-level=high"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "@11ty/eleventy-img": "^6.0.4"
+  },
+  "devDependencies": {
+    "html-minifier-terser": "^7.2.0"
+  }
+}

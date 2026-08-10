@@ -1,0 +1,28 @@
+{#- One card, used in three places: the home carousel, the All-work list, and the
+    "Next case study" block. Everything comes from the collection item, so a new
+    markdown file appears in all three without touching this file. -#}
+{% macro card(item, headingLevel = "h3") %}
+  <article class="card">
+    <div class="card__body">
+      <{{ headingLevel }} class="card__title">
+        <a href="{{ item.url }}">{{ item.data.title }}</a>
+      </{{ headingLevel }}>
+      <p class="card__deck">{{ item.data.deck }}</p>
+      <ul class="chips">
+        {%- for topic in item.data.topics %}
+        <li class="chip">{{ topic }}</li>
+        {%- endfor %}
+      </ul>
+      <a class="link-arrow" href="{{ item.url }}">
+        {{ (item.rawInput or item.templateContent) | readingTime }} min read
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+    <div class="card__media">
+      <div class="panel">
+        <img class="panel__media" src="{{ item.data.hero }}"
+             alt="{{ item.data.heroAlt or item.data.title }}">
+      </div>
+    </div>
+  </article>
+{% endmacro %}

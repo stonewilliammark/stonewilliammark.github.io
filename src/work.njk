@@ -1,0 +1,39 @@
+---
+layout: base.njk
+permalink: /work/
+title: All work
+description: Case studies in AI-driven product design, service design and design systems.
+---
+{% from "partials/work-card.njk" import card %}
+
+<div class="container">
+  <a class="backlink" href="/"><span aria-hidden="true">&larr;</span> Back</a>
+</div>
+
+<section class="container section" aria-labelledby="all-work-heading">
+  <h1 class="h1" id="all-work-heading">All work</h1>
+
+  {#- Filter chips. Counts come from the `topics` collection, so they are always
+      correct — there is no hand-maintained list to fall out of sync. -#}
+  <div class="filter-bar" data-filter role="group" aria-label="Filter work by topic">
+    <button class="chip chip--button" type="button" data-filter-all aria-pressed="true">
+      All ({{ collections.caseStudies | length }})
+    </button>
+    {%- for topic in collections.topics %}
+    <button class="chip chip--button" type="button"
+            data-filter-topic="{{ topic.name | slugifyTopic }}" aria-pressed="false">
+      {{ topic.name }} ({{ topic.count }})
+    </button>
+    {%- endfor %}
+  </div>
+
+  <p class="filter-empty" hidden data-filter-empty>No case studies match that filter.</p>
+
+  <ul class="work-list" data-filter-list>
+    {%- for item in collections.caseStudies %}
+    <li class="work-item" data-topics="{% for topic in item.data.topics %}{{ topic | slugifyTopic }}{% if not loop.last %} {% endif %}{% endfor %}">
+      {{ card(item, "h2") }}
+    </li>
+    {%- endfor %}
+  </ul>
+</section>

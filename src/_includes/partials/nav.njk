@@ -1,0 +1,17 @@
+<header class="nav">
+  <nav class="container nav__inner" aria-label="Primary">
+    <a class="nav__brand" href="/">{{ site.name }}</a>
+    <ul class="nav__links">
+      <li>
+        <a class="nav__link" href="/work/"
+           {% if page.url == "/work/" %}aria-current="page"{% endif %}>Work</a>
+      </li>
+      <li>
+        <a class="nav__link" href="/#about">About</a>
+      </li>
+    </ul>
+    {#- Primary CTA. External, so noopener/noreferrer per the security baseline. -#}
+    <a class="btn btn--primary nav__cta" href="{{ site.linkedin }}"
+       target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
+  </nav>
+</header>

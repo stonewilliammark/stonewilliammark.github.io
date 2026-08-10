@@ -1,0 +1,50 @@
+{%- set pageTitle = title or site.title -%}
+{%- set pageDesc = deck or description or site.description -%}
+{%- set pageImage = (hero or site.ogImage) | absoluteUrl(site.url) -%}
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {#- Security: restrict every fetch to same-origin. No CDNs, no inline script,
+        no third-party anything — so this stays tight. `frame-ancestors` and
+        `X-Frame-Options` can only be set as real headers, which GitHub Pages
+        does not allow; `default-src 'self'` is the meaningful control here. -#}
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <title>{% if title %}{{ title }} — {{ site.name }}{% else %}{{ site.title }}{% endif %}</title>
+    <meta name="description" content="{{ pageDesc }}">
+    <meta name="author" content="{{ site.name }}">
+    <link rel="canonical" href="{{ page.url | absoluteUrl(site.url) }}">
+
+    {#- Social previews. These matter: the site is distributed by pasting links
+        into LinkedIn messages and job applications. -#}
+    <meta property="og:type" content="{% if layout == 'case-study.njk' %}article{% else %}website{% endif %}">
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}">
+    <meta property="og:description" content="{{ pageDesc }}">
+    <meta property="og:url" content="{{ page.url | absoluteUrl(site.url) }}">
+    <meta property="og:image" content="{{ pageImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}">
+    <meta name="twitter:description" content="{{ pageDesc }}">
+    <meta name="twitter:image" content="{{ pageImage }}">
+
+    <link rel="preload" href="/fonts/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {% include "partials/nav.njk" %}
+    <main id="main">
+      {{ content | safe }}
+    </main>
+    {% include "partials/footer.njk" %}
+    <script src="/assets/js/app.js" defer></script>
+  </body>
+</html>

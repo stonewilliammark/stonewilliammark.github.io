@@ -1,0 +1,48 @@
+---
+layout: base.njk
+---
+{% from "partials/work-card.njk" import card %}
+{%- set next = collections.caseStudies | nextCaseStudy(page.url) -%}
+
+<div class="container">
+  <a class="backlink" href="/work/"><span aria-hidden="true">&larr;</span> Back to all work</a>
+</div>
+
+<article class="container">
+  <header class="case-head">
+    <h1 class="h1">{{ title }}</h1>
+    <div class="panel">
+      <img class="panel__media" src="{{ hero }}" alt="{{ heroAlt or title }}"
+           {# The hero is above the fold — load it eagerly so it isn't the LCP bottleneck. #}
+           loading="eager" fetchpriority="high">
+    </div>
+    <p class="deck">{{ deck }}</p>
+    <div class="case-meta">
+      <ul class="chips">
+        {%- for topic in topics %}
+        <li class="chip">{{ topic }}</li>
+        {%- endfor %}
+      </ul>
+      <span class="chip">{{ page.rawInput | readingTime }} min read</span>
+    </div>
+  </header>
+
+  {#- The body is the markdown, rendered. Each `## heading` becomes a section
+      headline, prose sits under it capped at a readable measure, and any
+      {% raw %}{% figure %}{% endraw %} calls render the designed dark panel. -#}
+  <div class="case-body">
+    {{ content | safe }}
+  </div>
+</article>
+
+{% if next %}
+<section class="section section--surface next-case" aria-labelledby="next-case-heading">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2" id="next-case-heading">Next case study</h2>
+      <a class="link-arrow" href="/work/">View all work <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    {{ card(next, "h3") }}
+  </div>
+</section>
+{% endif %}

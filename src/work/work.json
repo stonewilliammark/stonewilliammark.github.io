@@ -1,0 +1,8 @@
+{
+  "layout": "case-study.njk",
+  "tags": ["case-study"],
+  "permalink": "/work/{{ page.fileSlug }}/",
+  "eleventyComputed": {
+    "description": "{{ deck }}"
+  }
+}
