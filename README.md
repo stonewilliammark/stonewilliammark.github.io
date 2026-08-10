@@ -26,7 +26,8 @@ npm start        # http://localhost:8080, live reload
 npm run build    # production build into _site/
 ```
 
-Requires Node 18 or newer.
+Node 22 or newer is recommended — that's what CI uses. On Node 20 `npm install` prints an
+`EBADENGINE` warning for `@11ty/eleventy-img`; it's advisory and the build still works.
 
 ## How it fits together
 
