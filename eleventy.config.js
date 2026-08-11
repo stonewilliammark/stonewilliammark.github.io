@@ -25,12 +25,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/fonts": "fonts" });
   eleventyConfig.addPassthroughCopy({ "src/img": "img" });
 
-  // The custom domain is deliberately NOT deployed yet. A CNAME file makes GitHub
-  // redirect the *.github.io URL to stonewilliam.com, so publishing it before DNS
-  // resolves would take the site offline at both addresses. At cutover (once the
-  // A/AAAA records are live), move CNAME.pending to src/CNAME and restore the
-  // passthrough line below.
-  // eleventyConfig.addPassthroughCopy({ "src/CNAME": "CNAME" });
+  // Custom domain. This file must ship in every build — an Actions deploy without
+  // it would clear the domain setting on the repo.
+  eleventyConfig.addPassthroughCopy({ "src/CNAME": "CNAME" });
 
   eleventyConfig.addWatchTarget("src/assets/");
 
