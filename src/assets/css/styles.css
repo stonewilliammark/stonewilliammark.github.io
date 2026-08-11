@@ -25,6 +25,9 @@
   /* Colour ---------------------------------------------------------------- */
   --ink: #1d1d1f;
   --muted: #6f6f74;
+  /* Brand accent, as designed. NOTE: measured 2.25:1 on white — the uppercase
+     eyebrow using it fails WCAG AA (needs 4.5:1, or 3:1 as large text).
+     Left as designed pending a call; #9c6c34 would clear AA at 4.56:1. */
   --accent: #d7a36e;
   --surface: #f5f5f5;
   --white: #fff;
@@ -38,6 +41,11 @@
   --chip-bg: rgb(194 194 194 / 0.2);
   --chip-bg-hover: rgb(194 194 194 / 0.35);
   --hairline: rgb(29 29 31 / 0.1);
+
+  /* Chips sit on a translucent grey that resolves to #f3f3f3 on white and
+     #ebebeb on --surface. --muted measured 4.50:1 / 4.19:1 there, so 14px chip
+     text missed WCAG AA. This is a shade darker and clears it at 4.99 / 4.65. */
+  --chip-text: #68686d;
 
   --footer-bg: #2d2d2d;
   --footer-card: #383838;
@@ -322,7 +330,7 @@ button {
   min-height: 36px;
   padding: 0.25rem 1rem;
   font-size: var(--step-chip);
-  color: var(--muted);
+  color: var(--chip-text);
   background: var(--chip-bg);
   border: 0;
   border-radius: var(--radius-pill);
@@ -464,7 +472,7 @@ button {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.9375rem;
-  color: var(--muted);
+  color: var(--chip-text);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-pill);

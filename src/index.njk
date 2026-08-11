@@ -11,7 +11,15 @@ permalink: /
   <p class="deck">{{ site.intro }}</p>
   <div class="btn-row">
     <a class="btn btn--primary" href="/work/">View work</a>
+    {#- The CV button only renders once the PDF is actually in the repo. Set
+        site.cvReady to true in _data/site.json when it lands — better than
+        shipping a CTA that 404s. -#}
+    {% if site.cvReady %}
     <a class="btn btn--secondary" href="{{ site.cv }}" download>Download CV</a>
+    {% else %}
+    <a class="btn btn--secondary" href="{{ site.linkedin }}"
+       target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
+    {% endif %}
   </div>
 </section>
 

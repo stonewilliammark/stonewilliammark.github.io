@@ -7,21 +7,23 @@
       <h3>Let&rsquo;s talk</h3>
       <p>
         I&rsquo;m open to conversations about product and service design work — especially
-        where AI changes what a team can build. The quickest way to reach me is LinkedIn,
-        and my CV has the full detail plus my email.
+        where AI changes what a team can build.
+        {% if site.cvReady %}The quickest way to reach me is LinkedIn, and my CV has the
+        full detail plus my email.{% else %}The quickest way to reach me is LinkedIn.{% endif %}
       </p>
       <div class="btn-row">
         <a class="btn btn--on-dark" href="{{ site.linkedin }}"
            target="_blank" rel="noopener noreferrer">Message me on LinkedIn</a>
+        {% if site.cvReady %}
         <a class="btn btn--ghost-dark" href="{{ site.cv }}" download>Download CV (PDF)</a>
+        {% endif %}
       </div>
     </div>
     <div class="footer__meta">
       <p>&copy; {{ site.name }}</p>
       <p>
         <a href="{{ site.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        &nbsp;·&nbsp;
-        <a href="{{ site.cv }}" download>CV</a>
+        {% if site.cvReady %}&nbsp;·&nbsp;<a href="{{ site.cv }}" download>CV</a>{% endif %}
       </p>
     </div>
   </div>

@@ -64,6 +64,27 @@ Deliberate departures from the mocks, all agreed 2026-08-10:
 - **No "Skills" nav item.** The mocks had the link but no such page was ever designed.
 - **Topic names normalised**, so the filter doesn't show near-duplicate chips.
 
+## Turning on the CV download
+
+The "Download CV" CTA is gated so a dead button never ships. To enable it:
+
+1. Put the PDF at `src/assets/William-Stone-CV.pdf`.
+2. Set `"cvReady": true` in `src/_data/site.json`.
+3. Commit and push.
+
+Until then the hero and footer fall back to LinkedIn. **The PDF must be the phone-free
+version** — the public CV is intended to carry email only.
+
+## Accessibility notes
+
+Contrast was measured against WCAG AA for every token pair. Two needed attention:
+
+- **Chip text** was 4.50:1 on white and 4.19:1 on the grey surface at 14px, so it missed AA.
+  `--chip-text` is now a shade darker (4.99 / 4.65).
+- **The brand accent `#d7a36e` measures 2.25:1 on white**, so the uppercase eyebrow using it
+  fails AA (4.5:1 needed, or 3:1 as large text). It is left exactly as designed pending a
+  decision — `#9c6c34` would clear AA at 4.56:1 but reads noticeably browner.
+
 ## Notes
 
 - Vanilla CSS with custom properties — no Tailwind, no framework, no client-side rendering.
