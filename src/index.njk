@@ -10,10 +10,10 @@ permalink: /
   <p class="eyebrow">{{ site.eyebrow }}</p>
   <h1 class="h1">{{ site.headline }}</h1>
   <p class="deck">{{ site.intro }}</p>
-  {#- Figma 2230:13533 — dark "Let's talk" with a LinkedIn-blue border, then the
-      flat-grey CV download. -#}
+  {#- Figma 2230:13533 — dark "Let's talk" (the frame's blue stroke was accidental,
+      so it is not applied) then the flat-grey CV download. -#}
   <div class="btn-row">
-    <a class="btn btn--dark-linkedin" href="{{ site.linkedin }}"
+    <a class="btn btn--primary" href="{{ site.linkedin }}"
        target="_blank" rel="noopener noreferrer">
       {{ linkedin() }} Let&rsquo;s talk
     </a>

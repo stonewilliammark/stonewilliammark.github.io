@@ -18,6 +18,23 @@
 </svg>
 {% endmacro %}
 
+{#- The "N min read" pill uses a full arrow, not the chevron (Figma 2230:13582). -#}
+{% macro arrow() %}
+<svg class="icon icon--arrow" viewBox="0 0 16.975 14" width="17" height="14" aria-hidden="true" focusable="false">
+  <path fill="currentColor" d="M16.975 7C16.975 6.74334 16.8583 6.49834 16.6483 6.3L10.6283 0.291665C10.4183 0.0933263 10.185 0 9.94 0C9.42668 0 9.03 0.384993 9.03 0.910001C9.03 1.155 9.11167 1.4 9.28666 1.56334L10.8967 3.23167L14.84 6.79L15.05 6.27668L11.9467 6.055H0.93334C0.385012 6.055 0 6.45168 0 7C0 7.54833 0.385012 7.94501 0.93334 7.94501H11.9467L15.05 7.72333L14.84 7.22166L10.8967 10.7683L9.28666 12.4367C9.11167 12.6 9.03 12.845 9.03 13.09C9.03 13.615 9.42668 14 9.94 14C10.185 14 10.4183 13.9067 10.6283 13.7083L16.6483 7.70001C16.8583 7.50167 16.975 7.25667 16.975 7Z"/>
+</svg>
+{% endmacro %}
+
+{#- Active-filter marker: filled circle with a knocked-out tick (Figma 2227:8112).
+    The circle takes currentColor and the tick is painted in the chip background,
+    so it stays correct if the chip colour ever changes. -#}
+{% macro checkCircle() %}
+<svg class="icon" viewBox="0 0 16 15.9901" width="16" height="16" aria-hidden="true" focusable="false">
+  <path fill="currentColor" d="M7.99504 15.9901C12.4136 15.9901 16 12.4037 16 7.99504C16 3.58638 12.4136 0 7.99504 0C3.58637 0 2.38419e-06 3.58638 2.38419e-06 7.99504C2.38419e-06 12.4037 3.58637 15.9901 7.99504 15.9901Z"/>
+  <path fill="#fff" d="M7.12127 11.8094C6.81414 11.8094 6.56646 11.6905 6.32869 11.3735L4.48597 9.06515C4.34727 8.89675 4.27792 8.6986 4.27792 8.50045C4.27792 8.09427 4.57512 7.76732 4.99123 7.76732C5.2389 7.76732 5.43705 7.84659 5.65501 8.14379L7.08162 10.046L10.242 4.93389C10.4005 4.65649 10.6284 4.51779 10.8661 4.51779C11.2624 4.51779 11.6191 4.77539 11.6191 5.20139C11.6191 5.39952 11.5101 5.60757 11.3912 5.7859L7.8643 11.3735C7.67605 11.6707 7.41847 11.8094 7.12127 11.8094Z"/>
+</svg>
+{% endmacro %}
+
 {% macro download() %}
 <svg class="icon" viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false"
      stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">

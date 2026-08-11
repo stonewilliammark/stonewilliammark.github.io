@@ -1,4 +1,4 @@
-{%- from "partials/icons.njk" import chevron -%}
+{%- from "partials/icons.njk" import arrow -%}
 
 {#- One card, used in three places: the home carousel, the All-work list, and the
     "Next case study" block. Everything comes from the collection item, so a new
@@ -23,9 +23,10 @@
         {% if cta == "read" %}
         <a class="btn btn--outline" href="{{ item.url }}">Read case study</a>
         {% else %}
+        {#- The reading-time pill uses a full arrow, not the chevron (Figma 2230:13582). -#}
         <a class="pill-link" href="{{ item.url }}">
           {{ (item.rawInput or item.templateContent) | readingTime }} min read
-          {{ chevron() }}
+          {{ arrow() }}
         </a>
         {% endif %}
       </div>

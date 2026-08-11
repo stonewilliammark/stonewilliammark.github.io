@@ -5,24 +5,32 @@ title: All work
 description: Case studies in AI-driven product design, service design and design systems.
 ---
 {% from "partials/work-card.njk" import card %}
-{% from "partials/icons.njk" import chevron %}
+{% from "partials/icons.njk" import chevron, checkCircle %}
 
-<div class="container">
-  <a class="backlink" href="/">{{ chevron("left") }} Back</a>
+{#- "Back" is a pill with a leading chevron, in its own 83px band between the nav
+    and the content (Figma 2227:8101 / 2227:8102) — not a plain text link. -#}
+<div class="back-row">
+  <div class="container">
+    <a class="pill-link" href="/">{{ chevron("left") }} Back</a>
+  </div>
 </div>
 
-<section class="container section" aria-labelledby="all-work-heading">
+<section class="container section section--tight" aria-labelledby="all-work-heading">
   <h1 class="section-title" id="all-work-heading">All work</h1>
 
-  {#- Filter chips. Counts come from the `topics` collection, so they are always
-      correct — there is no hand-maintained list to fall out of sync. -#}
+  {#- Filter chips (Figma 2227:8110). Counts come from the `topics` collection, so
+      they are always correct — there is no hand-maintained list to fall out of
+      sync. The active chip keeps the same background and marks itself with a tick
+      plus bold ink text, rather than inverting to a dark fill. -#}
   <div class="filter-bar" data-filter role="group" aria-label="Filter work by topic">
     <button class="chip chip--button" type="button" data-filter-all aria-pressed="true">
+      <span class="chip__tick">{{ checkCircle() }}</span>
       All ({{ collections.caseStudies | length }})
     </button>
     {%- for topic in collections.topics %}
     <button class="chip chip--button" type="button"
             data-filter-topic="{{ topic.name | slugifyTopic }}" aria-pressed="false">
+      <span class="chip__tick">{{ checkCircle() }}</span>
       {{ topic.name }} ({{ topic.count }})
     </button>
     {%- endfor %}

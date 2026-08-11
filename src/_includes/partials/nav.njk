@@ -16,9 +16,9 @@
            {% if page.url == "/work/" %}aria-current="page"{% endif %}>Work</a>
         <a class="nav__link" href="/#about">About</a>
       </div>
-      {#- Dark fill with a LinkedIn-blue border (Figma 2230:13710). External, so
-          noopener/noreferrer per the security baseline. -#}
-      <a class="btn btn--dark-linkedin" href="{{ site.linkedin }}"
+      {#- Dark pill with the LinkedIn glyph. The blue stroke in the Figma frame was
+          accidental and is not applied. External, so noopener/noreferrer. -#}
+      <a class="btn btn--primary" href="{{ site.linkedin }}"
          target="_blank" rel="noopener noreferrer">
         {{ linkedin() }} Let&rsquo;s talk
       </a>

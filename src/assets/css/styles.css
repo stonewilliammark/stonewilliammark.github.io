@@ -70,7 +70,7 @@
 
   --step-eyebrow: 1.125rem; /* 18px, tracking .17em */
   --step-h1: clamp(2.5rem, 1.6rem + 3.6vw, 4rem); /* 40 → 64 */
-  --step-section: clamp(2rem, 1.2rem + 3.2vw, 3.5rem); /* 32 → 56 section headings */
+  --step-section: clamp(2.5rem, 1.9rem + 2.6vw, 3.5rem); /* 40 → 56 section headings */
   --step-h2: clamp(1.5rem, 1.15rem + 1.4vw, 2rem); /* 24 → 32 case-study headings */
   --step-deck: clamp(1.125rem, 0.9rem + 0.9vw, 1.75rem); /* 18 → 28 hero deck */
   --step-body: clamp(1.0625rem, 0.98rem + 0.35vw, 1.5rem); /* 17 → 24 */
@@ -86,7 +86,7 @@
   --block: 1.5rem; /* the design's 24px rhythm */
   --section-y: clamp(3.5rem, 2rem + 6vw, 5rem); /* 80px at desktop */
   --section-gap: clamp(2rem, 1rem + 3vw, 3.5rem); /* 56px header → content */
-  --card-pad: clamp(1.25rem, 0.6rem + 2.4vw, 2rem); /* 32px at desktop */
+  --card-pad: clamp(1.5rem, 0.9rem + 2.4vw, 2rem); /* 24px mobile → 32px desktop */
 
   --radius-panel: 24px;
   --radius-card: 24px;
@@ -94,6 +94,7 @@
 
   --nav-offset: 24px;
   --nav-h: 64px;
+  --nav-inset: 8px; /* even gap around the CTA; also sets its concentric radius */
 }
 
 /* Reset -------------------------------------------------------------------- */
@@ -177,6 +178,11 @@ button {
   background: var(--surface);
 }
 
+/* Pages that sit under the back row start 56px down, not 80px (2227:8106). */
+.section--tight {
+  padding-top: var(--section-gap);
+}
+
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -200,6 +206,12 @@ button {
 .icon--chevron {
   width: 10.5px;
   height: 18px;
+}
+
+/* Explicit, because the reset's `height: auto` would otherwise derive it. */
+.icon--arrow {
+  width: 17px;
+  height: 14px;
 }
 
 .icon--flip {
@@ -301,17 +313,6 @@ button {
   background: #0b5aa8;
 }
 
-/* Nav and hero CTA: dark fill with a LinkedIn-blue border (Figma 2230:13710). */
-.btn--dark-linkedin {
-  background: var(--ink);
-  border-color: var(--linkedin);
-  color: var(--white);
-}
-
-.btn--dark-linkedin:hover {
-  background: #000;
-}
-
 .btn-row {
   display: flex;
   flex-wrap: wrap;
@@ -349,7 +350,10 @@ button {
   color: var(--ink);
 }
 
+/* Filter chips keep the same background whether or not they're active. Active is
+   signalled by a tick, bold weight and ink text — not by inverting to a dark fill. */
 .chip--button {
+  gap: 0.5rem; /* Figma 8px, between the tick and the label */
   transition: background-color 0.18s ease, color 0.18s ease;
 }
 
@@ -357,9 +361,18 @@ button {
   background: var(--chip-bg-hover);
 }
 
+.chip__tick {
+  display: none;
+  line-height: 0;
+}
+
 .chip--button[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--white);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.chip--button[aria-pressed="true"] .chip__tick {
+  display: block;
 }
 
 /* The designed dark artefact panel ----------------------------------------
@@ -408,6 +421,11 @@ button {
 
 /* The pill sits inside .container so its edges line up with the cards and
    section headers at every viewport width, not just at the design width. */
+/* The CTA's gap must be equal on all four sides, or its curve reads as
+   off-centre against the pill's. With a 64px fully-rounded pill (32px effective
+   radius) and an 8px inset, the CTA needs a 24px radius to stay concentric —
+   which is exactly what a fully-rounded 48px pill gives. Hence --nav-inset.
+   The left padding stays 16px so the wordmark keeps lining up with card text. */
 .nav__pill {
   pointer-events: auto;
   display: flex;
@@ -416,7 +434,8 @@ button {
   gap: 1rem;
   width: 100%;
   height: var(--nav-h);
-  padding-inline: 16px;
+  padding: var(--nav-inset);
+  padding-left: 16px;
   overflow: hidden;
   background: var(--material);
   backdrop-filter: blur(var(--material-blur)) saturate(180%);
@@ -460,6 +479,13 @@ button {
   border-radius: var(--radius-pill);
   white-space: nowrap;
   transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+/* Height derived from the pill so the concentric relationship holds if either
+   the pill height or the inset changes. */
+.nav__pill .btn {
+  height: calc(var(--nav-h) - var(--nav-inset) * 2);
+  padding-block: 0;
 }
 
 .nav__link:hover,
@@ -697,26 +723,12 @@ button {
   object-fit: cover;
 }
 
+/* Back row — 16px above and below a 51px pill, the designed 83px band. */
+.back-row {
+  padding-block: 16px;
+}
+
 /* Case study page --------------------------------------------------------- */
-.backlink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-block: 1.25rem;
-  font-size: var(--step-ui);
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.backlink:hover {
-  color: var(--ink);
-}
-
-/* The chevron is drawn tall (10.5×18); scale it to sit with 16px text. */
-.backlink .icon--chevron {
-  width: 8px;
-  height: 14px;
-}
 
 .case-head {
   display: flex;
@@ -807,10 +819,12 @@ button {
   list-style: none;
 }
 
+/* 24px below the title, 56px above the cards (Figma 2227:8107 / 2227:8128). */
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-top: var(--block);
   margin-bottom: var(--section-gap);
 }
 
@@ -839,24 +853,31 @@ button {
     max-width: none;
   }
 
+  /* The mobile card image is 313x238 — the same 620/472 crop, not a wide panel. */
   .card .panel {
-    aspect-ratio: 1336 / 472;
+    aspect-ratio: 620 / 472;
   }
 }
 
 @media (max-width: 640px) {
-  /* The mobile frame (2227:8547) drops the wordmark and keeps the tabs plus the
-     CTA — which is also what stops the pill overflowing at 393px. */
+  /* The mobile frame (2227:8668) drops the wordmark and keeps the tabs plus the
+     CTA — which is also what stops the pill overflowing at 393px. It also sits
+     16px from the top rather than 24px, with a 12px inset and a 40px CTA. */
+  :root {
+    --nav-offset: 16px;
+    --nav-inset: 12px;
+  }
+
   .nav__brand {
     display: none;
   }
 
-  .nav {
-    padding-inline: 0.75rem;
+  .nav__pill {
+    padding-left: var(--nav-inset);
   }
 
-  .nav__pill {
-    padding-inline: 8px;
+  .nav__pill .btn {
+    padding-inline: 16px;
   }
 
   .nav__link {

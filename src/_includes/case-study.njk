@@ -5,8 +5,11 @@ layout: base.njk
 {% from "partials/icons.njk" import chevron %}
 {%- set next = collections.caseStudies | nextCaseStudy(page.url) -%}
 
-<div class="container">
-  <a class="backlink" href="/work/">{{ chevron("left") }} Back to all work</a>
+{#- Same 83px band and pill as the All-work page (Figma 2227:8989 / 2227:8990). -#}
+<div class="back-row">
+  <div class="container">
+    <a class="pill-link" href="/work/">{{ chevron("left") }} Back</a>
+  </div>
 </div>
 
 <article class="container">
