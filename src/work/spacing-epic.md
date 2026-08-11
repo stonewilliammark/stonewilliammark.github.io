@@ -33,6 +33,8 @@ These issues created inefficiencies in the design process and inconsistencies in
 
 I approached the Spacing Epic by assembling a dedicated team of four designers, myself included. My first priority was establishing genuine ownership and investment in the outcome. In an initial whiteboarding session, I focused not just on the problems but on why these problems mattered. I presented examples of our current inconsistent spacing alongside best-in-class designs, clearly illustrating the gap between our current state and where we needed to be. This collaborative approach was particularly valuable for the junior designers on the team who typically worked individually on their day-to-day projects. The Spacing Epic would provide them with collaborative experience while deepening their understanding of design fundamentals.
 
+{% figure "/img/spacing-epic/figure-1.png", "The team whiteboarding session that established shared ownership of the problem" %}
+
 ## Applying the EPIC framework
 
 We treated spacing as a proper UX project rather than a simple design system task, following our structured EPIC framework:
@@ -75,6 +77,10 @@ Building on our relationship model, we added a second dimension: spatial density
 
 This two-dimensional approach allowed us to maintain consistent relationship signals while adapting to different UI contexts—directly addressing the original product request for density controls.
 
+{% figure "/img/spacing-epic/figure-2.png", "The half-base-unit spacing scale" %}
+{% figure "/img/spacing-epic/figure-3.png", "Semantic spacing tokens mapped to interface relationships" %}
+{% figure "/img/spacing-epic/figure-4.png", "Spatial relationships — how spacing communicates grouping" %}
+
 ## Implementation and technical alignment
 
 As we moved toward implementation, we needed to align our semantic model with technical requirements:
@@ -94,6 +100,12 @@ To ensure successful adoption, we created comprehensive educational materials:
 - **Hands-on workshops:** We conducted interactive sessions where designers could apply the new model
 
 Our documentation focused not just on what to do but why it mattered—helping designers understand the principles behind the guidelines rather than simply following rules.
+
+{% figure "/img/spacing-epic/figure-5.png", "Why spacing matters — the case made to the wider team" %}
+{% figure "/img/spacing-epic/figure-6.png", "Establishing type and spacing together" %}
+{% figure "/img/spacing-epic/figure-7.png", "Levels of density — compact, comfortable and spacious" %}
+{% figure "/img/spacing-epic/figure-8.png", "Applying the model across real product screens" %}
+{% figure "/img/spacing-epic/figure-9.png", "The documented spacing guidance the team adopted" %}
 
 ## Results and impact
 

@@ -20,7 +20,8 @@ To understand our service delivery landscape, I conducted a comprehensive servic
 
 The service blueprint created visibility into the entire customer journey, revealing how staff activities supported each interaction, where system dependencies created friction, and how communication flowed between departments. Most importantly, it highlighted pain points affecting both customers and staff that hadn't been visible when looking at individual processes in isolation. This cross-departmental view gave everyone a shared understanding of how different teams contributed to the overall customer experience, breaking down silos that had previously limited visibility.
 
-{% figure "/img/service-blueprinting/figure-1.png", "service blueprint diagrams, labelled 'Service delivery blueprint'" %}
+{% figure "/img/service-blueprinting/figure-1.png", "The end-to-end service blueprint mapping the delivery workflow" %}
+{% figure "/img/service-blueprinting/figure-2.png", "Blueprint detail showing hand-offs between teams" %}
 
 ## Uncovering systemic opportunities for improvement
 
@@ -33,7 +34,7 @@ The blueprinting work revealed several key insights that wouldn't have been visi
 
 Instead of treating these as isolated issues, the blueprint helped everyone see them as interconnected parts of a larger system that could be improved holistically.
 
-{% figure "/img/service-blueprinting/figure-2.png", "two dark diagram cards — 'Workarounds becoming norms' and 'System X process release from CBA…'" %}
+{% figure "/img/service-blueprinting/figure-3.png", "Systemic issues surfaced by the blueprint — workarounds that had become normal practice" %}
 
 ## From mapping to action
 
@@ -46,7 +47,9 @@ Following the blueprinting work, I helped leadership identify where to focus our
 
 Throughout this process, I encouraged the organisation to look beyond quick fixes toward deeper structural improvements that would create lasting change.
 
-{% figure "/img/service-blueprinting/figure-3.png", "three 'vision' cards — client portal, invoicing, CRM" %}
+{% figure "/img/service-blueprinting/figure-4.png", "Future-state vision — the client portal" %}
+{% figure "/img/service-blueprinting/figure-5.png", "Future-state vision — invoicing" %}
+{% figure "/img/service-blueprinting/figure-6.png", "Future-state vision — CRM" %}
 
 ## Building shared understanding and driving change
 

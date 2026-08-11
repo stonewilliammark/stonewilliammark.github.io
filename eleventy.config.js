@@ -1,5 +1,7 @@
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { minify } from "html-minifier-terser";
+import { readdirSync, rmSync, existsSync } from "node:fs";
+import { join } from "node:path";
 
 /**
  * Required frontmatter for every case study.
@@ -36,9 +38,12 @@ export default function (eleventyConfig) {
   // Optimises every <img> in the output HTML: generates WebP, builds a srcset,
   // and stamps explicit width/height to prevent layout shift. Authors just
   // write a normal <img>; this handles the rest at build time.
+  // WebP only. Support is universal in anything that can render the rest of this
+  // CSS, and emitting a second PNG ladder at every width doubled the deploy for
+  // variants no browser would ever request.
   eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
-    formats: ["webp", "auto"],
-    widths: [480, 960, 1440, "auto"],
+    formats: ["webp"],
+    widths: [480, 960, 1440, "auto"], // "auto" = the 2x source, for retina
     failOnError: false, // a missing image warns rather than killing the whole build
     defaultAttributes: {
       loading: "lazy",
@@ -158,6 +163,26 @@ export default function (eleventyConfig) {
       minifyJS: true,
       useShortDoctype: true,
     });
+  });
+
+  // Source images have to be copied into the output for the image transform to
+  // resolve them, but once it has run every reference points at a generated WebP.
+  // The leftover originals are dead weight in the deploy — except the heroes,
+  // which og:image links to directly for social previews.
+  eleventyConfig.on("eleventy.after", ({ dir }) => {
+    const imgDir = join(dir.output, "img");
+    if (!existsSync(imgDir)) return;
+    let removed = 0;
+    for (const entry of readdirSync(imgDir, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const slugDir = join(imgDir, entry.name);
+      for (const file of readdirSync(slugDir)) {
+        if (file.startsWith("hero.")) continue; // keep — referenced by og:image
+        rmSync(join(slugDir, file));
+        removed++;
+      }
+    }
+    if (removed > 0) console.log(`[img] pruned ${removed} unreferenced source images from the build`);
   });
 
   return {

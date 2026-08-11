@@ -55,6 +55,8 @@ Users with limited skill who frequently ask 'so what?' when presented with data 
 - Uncertain about identifying insights alone, often waits for a peer to request an insight.
 - Relies on peers or analysts to clarify the significance of data insights.
 
+{% figure "/img/ai-driven-profiling/figure-1.png", "The three user archetypes — Experts, Explorers and So Whater's — used to scope the proof of concept" %}
+
 ## Creating alignment through collaborative discovery
 
 In the first week, I helped facilitate a full-day workshop bringing together our cross-functional team—the head of product, analytics lead, engineers, and customer team representatives. We mapped the complete journey for marketing users, from problem identification through campaign implementation. This exercise showed us exactly where our solution could add the most value: in the "producing insights and analysing" phase of the journey.
@@ -62,6 +64,8 @@ In the first week, I helped facilitate a full-day workshop bringing together our
 The alignment created immediate momentum, with the customer team scheduling recurring interviews with potential users while we refined our solution scope. From there, we established daily collaborative sessions where we used whiteboarding to discuss ideas, map user needs, and agree on direction—creating a feedback loop that maintained focus throughout the project.
 
 *[Images: workshop / whiteboarding photos]*
+
+{% figure "/img/ai-driven-profiling/figure-2.png", "The full-day discovery workshop bringing the team together around the problem" %}
 
 ## The breakthrough - from metrics to intent
 
@@ -77,6 +81,8 @@ The intent-based approach meant profiles were naturally more useful to customers
 
 *[Product screenshot: "Customer profiles" — segmented view showing Competitor's Customers, Potential Customers, and Category Newcomers, each with a size-of-opportunity and people-in-opportunity insight.]*
 
+{% figure "/img/ai-driven-profiling/figure-3.png", "The shift from metric-led profiles to intent-based profiles" %}
+
 ## Using AI tools to enhance our design process
 
 To deliver within our tight timeframe, I developed an effective design workflow using AI tools:
@@ -87,6 +93,8 @@ To deliver within our tight timeframe, I developed an effective design workflow 
 - I also used Perplexity to create detailed contextual information about clients that helped train our AI system, allowing it to have better understanding of client contexts.
 
 *[Screenshots: prototype screens; Claude and v0 tool marks]*
+
+{% figure "/img/ai-driven-profiling/figure-4.png", "The AI-assisted design workflow, from requirements through to front-end prototype" %}
 
 ## Users respond with enthusiasm
 

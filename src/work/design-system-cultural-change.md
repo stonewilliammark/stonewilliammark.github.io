@@ -32,7 +32,7 @@ Driving this change required influencing multiple stakeholders:
 
 When I began using the Quantium Design System extensively, I discovered it was difficult to work with—particularly in Figma. Our designs frequently didn't translate properly to the coded version of the system. Team members would spend considerable time on minor fixes, while systemic issues persisted. A particularly telling example was the recurring question around which shade of grey to use for element outlines—"grey 6 or grey 7?" Designers would frequently need to ask this, resulting in rework, misalignment, and inconsistency across products. The lack of clear system guidance led to repeated confusion and design debt. Everyone was expected to contribute to the design system, but most people only had an hour or two to spare, which meant they could only tackle minor tasks. Without someone taking ownership of larger problems, they simply weren't being addressed. The system had also become quite rigid, with rules that sometimes contradicted good UX principles.
 
-{% figure "/img/design-system-cultural-change/figure-1.png", "card headed 'Symptomatic & isolated designing created disjointed issues' showing disparate UI component styles" %}
+{% figure "/img/design-system-cultural-change/figure-1.png", "Symptomatic, isolated designing had produced disjointed component styles across products" %}
 
 ## Change catalyst: Problem-driven entry point
 
@@ -51,7 +51,9 @@ We broke down the system into discrete epics—such as Spacing, Colour, Radius, 
 
 We piloted the EPIC framework with the Spacing Epic. In that epic, we applied design research, team workshops, and co-creation methods to deeply understand the problem space. From there, we developed new patterns and naming conventions that addressed underlying issues, not just surface-level symptoms. This approach helped us move from reactive patching to intentional, system-wide improvement.
 
-{% figure "/img/design-system-cultural-change/figure-2.png", "'Design system 'EPIC' road map', 'Design system high level plan', 'Colour epic planning' — planning artefacts, see appendix" %}
+{% figure "/img/design-system-cultural-change/figure-2.png", "The design system EPIC roadmap" %}
+{% figure "/img/design-system-cultural-change/figure-3.png", "The design system high-level plan" %}
+{% figure "/img/design-system-cultural-change/figure-4.png", "Colour epic planning" %}
 
 ## Cultural shift: From enforcing rules to enabling principles
 
@@ -73,7 +75,7 @@ The new approach demonstrated clear improvements in both efficiency and quality:
 - Foundational issues were elevated and prioritised, leading to meaningful improvements in the design system
 - Fixes began to resolve multiple issues at once, rather than causing new problems—reducing rework and lowering the overall cost of maintaining the system
 
-{% figure "/img/design-system-cultural-change/figure-3.png", "'Collaborative problem solving' — workshop screenshots, see appendix" %}
+{% figure "/img/design-system-cultural-change/figure-5.png", "Collaborative problem solving in practice — workshop output from the team" %}
 
 ## Key learnings
 

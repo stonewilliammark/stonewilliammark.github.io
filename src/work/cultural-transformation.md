@@ -40,13 +40,16 @@ One of the most effective methods I used in this transformation was introducing 
 
 This provided a shared language for discussing user needs and helped the organisation understand the diverse ways customers interact with our products.
 
-{% figure "/img/cultural-transformation/figure-1.png", "'Product archetypes' illustration cards" %}
+{% figure "/img/cultural-transformation/figure-1.png", "The product archetypes illustration cards introduced to the organisation" %}
+{% figure "/img/cultural-transformation/figure-2.png", "Archetype card detail — the Experts profile" %}
+{% figure "/img/cultural-transformation/figure-3.png", "Archetype card detail — the Explorers profile" %}
+{% figure "/img/cultural-transformation/figure-4.png", "Archetype card detail — the So Whater's profile" %}
 
 ## The insight that changed everything
 
 The most significant breakthrough came from helping the organisation recognise that even the most technical users eventually need to communicate findings to stakeholders who want clear, actionable insights. I shared this perspective in various forums across the organisation. The insight resonated deeply with leadership, who quickly adopted both the language and concept in their own communications. This perspective shift made user-centred design relevant to everyone. It wasn't just about serving non-technical users—it was about ensuring all data analysis ultimately delivers meaningful insights.
 
-{% figure "/img/cultural-transformation/figure-2.png", "'Imagine trying to build a product for everyone?' bullseye illustration" %}
+{% figure "/img/cultural-transformation/figure-5.png", "\"Imagine trying to build a product for everyone?\" — the bullseye illustration that reframed the conversation" %}
 
 ## Breaking the expert feedback loop
 
@@ -67,7 +70,7 @@ Initially, there was hesitation around conducting user research. The attitude re
 
 Facilitating workshops became a key method for bringing diverse stakeholders together around user needs. These collaborative sessions, which I regularly conducted throughout projects, helped align teams around a common understanding of user journeys and pain points. For example, during one project, I facilitated sessions where stakeholders participated in mapping customer journeys and identifying pain points. This approach created shared ownership of the user experience, with participants becoming invested in addressing the challenges they helped identify. These workshops broke down silos between technical, business, and customer-facing teams, helping everyone see how their role contributed to the overall user experience.
 
-{% figure "/img/cultural-transformation/figure-3.png", "workshop whiteboard/sticky-note photo" %}
+{% figure "/img/cultural-transformation/figure-6.png", "Cross-functional workshops that built momentum behind user-centred practice" %}
 
 ## Evidence of cultural transformation
 
@@ -90,7 +93,7 @@ The cultural transformation had tangible effects on how products were conceived 
 - **Faster delivery cycles:** With clearer priorities based on user needs, teams could build and ship more efficiently.
 - **Evidence-based decisions:** User feedback began actively shaping product decisions, often challenging internal assumptions.
 
-{% figure "/img/cultural-transformation/figure-4.png", "'From data to insight led solution' — an Excel spreadsheet screenshot alongside the insight-led product UI ('Resident economic health')" %}
+{% figure "/img/cultural-transformation/figure-7.png", "From data to insight-led solution — a spreadsheet export alongside the insight-led product interface" %}
 
 ## Key learnings for cultural transformation
 
