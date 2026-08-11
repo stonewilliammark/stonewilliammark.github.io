@@ -23,8 +23,9 @@
         {% if cta == "read" %}
         <a class="btn btn--outline" href="{{ item.url }}">Read case study</a>
         {% else %}
-        {#- The reading-time pill uses a full arrow, not the chevron (Figma 2230:13582). -#}
-        <a class="pill-link" href="{{ item.url }}">
+        {#- Also an outlined button, same as "Read case study" — only the label
+            differs (Figma 2227:8145). Uses the full arrow, not the chevron. -#}
+        <a class="btn btn--outline" href="{{ item.url }}">
           {{ (item.rawInput or item.templateContent) | readingTime }} min read
           {{ arrow() }}
         </a>

@@ -553,7 +553,11 @@ button {
   background: var(--material);
 }
 
-/* Work card (Figma 2227:7958) --------------------------------------------- */
+/* Work card (Figma 2227:7958) ---------------------------------------------
+   Note: the first carousel card's title measures 462px and its deck 419px in
+   Figma, but those are hug-to-content widths from hard-wrapped text — the second
+   card in the same carousel runs both at the full 620px column. Do not turn them
+   back into max-widths; the text should fill its column. */
 .card {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -576,7 +580,6 @@ button {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.01em;
-  max-width: 462px; /* Figma 461.7px */
 }
 
 .card__title a {
@@ -588,13 +591,18 @@ button {
   font-weight: 500;
   line-height: 1.35;
   color: var(--muted);
-  max-width: 419px; /* Figma 418.6px */
   text-wrap: pretty;
 }
 
-/* The CTA sits in its own 24px-topped block in the design. */
+/* The CTA sits in its own 24px-topped block in the design. Both card CTAs are
+   outlined buttons — "Read case study" on the carousel, "N min read" + arrow on
+   All-work (Figma 2227:7974 / 2227:8145) — with a 16px gap, not the .btn 12px. */
 .card__cta {
   padding-top: var(--block);
+}
+
+.card__cta .btn {
+  gap: 1rem;
 }
 
 .card .panel {
@@ -706,10 +714,12 @@ button {
 }
 
 /* About card (Figma 2227:8050) -------------------------------------------- */
+/* 616 + 40 + 616 = 1272. The About gap is 40px where the work card's is 32px —
+   they genuinely differ in the design. */
 .about {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--card-pad);
+  gap: clamp(1.5rem, 0.6rem + 2.8vw, 2.5rem);
   align-items: center;
   padding: var(--card-pad);
   background: var(--material);
@@ -736,6 +746,12 @@ button {
   gap: var(--block);
 }
 
+/* 56px between the title and the hero image (Figma 2227:8996 → 2227:8998):
+   32px here plus the 24px .case-head gap. */
+.case-head .h1 {
+  margin-bottom: 2rem;
+}
+
 .case-meta {
   display: flex;
   flex-wrap: wrap;
@@ -743,11 +759,29 @@ button {
   gap: 1rem;
 }
 
+/* Case study body rhythm ---------------------------------------------------
+   Markdown renders a FLAT list of h2/p/ul/figure — there are no section
+   wrappers — so spacing is driven entirely by top-margins on siblings. A flex
+   `gap` here would land between a heading and its own first paragraph, and in
+   flexbox margins add to the gap rather than collapsing, which is how this
+   previously reached 112px where the design has 24px.
+
+   Measured from Figma 2227:8995: 56px between sections, 24px within one. */
 .case-body {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(2.5rem, 4vw, 4rem);
-  padding-block: clamp(2.5rem, 4vw, 4rem);
+  padding-top: var(--section-gap); /* 56px from the tags to the first heading */
+  padding-bottom: var(--section-y);
+}
+
+.case-body > * + * {
+  margin-top: var(--block); /* 24px — the within-section rhythm */
+}
+
+.case-body > h2 {
+  margin-top: var(--section-gap); /* 56px — a new section starts */
+}
+
+.case-body > h2:first-child {
+  margin-top: 0;
 }
 
 .case-body h2 {
@@ -756,24 +790,23 @@ button {
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: var(--ink);
-  max-width: var(--measure);
   text-wrap: balance;
-  margin-bottom: var(--block);
 }
 
 .case-body h3 {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--ink);
-  max-width: var(--measure);
-  margin-bottom: 0.5rem;
 }
 
+/* Full container width, as designed. That is a long measure (~116 characters at
+   24px), so the leading is raised well above the mocks' ~1.2 to keep the return
+   sweep trackable — the standard trade for a wide column. */
 .case-body p,
 .case-body ul,
 .case-body ol {
-  max-width: var(--measure);
   color: var(--muted);
+  line-height: 1.55;
   text-wrap: pretty;
 }
 
@@ -789,20 +822,6 @@ button {
 .case-body strong {
   color: var(--ink);
   font-weight: 600;
-}
-
-.case-body > * + * {
-  margin-top: 1em;
-}
-
-.case-body h2,
-.case-body h3,
-.case-body figure {
-  margin-top: 0;
-}
-
-.case-body figure {
-  margin-block: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .case-body hr {
