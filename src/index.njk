@@ -3,23 +3,22 @@ layout: base.njk
 permalink: /
 ---
 {% from "partials/work-card.njk" import card %}
-{% from "partials/icons.njk" import chevron %}
+{% from "partials/icons.njk" import chevron, linkedin %}
 {%- set selected = collections.caseStudies -%}
 
 <section class="container hero">
   <p class="eyebrow">{{ site.eyebrow }}</p>
   <h1 class="h1">{{ site.headline }}</h1>
   <p class="deck">{{ site.intro }}</p>
+  {#- Figma 2230:13533 — dark "Let's talk" with a LinkedIn-blue border, then the
+      flat-grey CV download. -#}
   <div class="btn-row">
-    <a class="btn btn--primary" href="/work/">View work</a>
-    {#- The CV button only renders once the PDF is actually in the repo. Set
-        site.cvReady to true in _data/site.json when it lands — better than
-        shipping a CTA that 404s. -#}
+    <a class="btn btn--dark-linkedin" href="{{ site.linkedin }}"
+       target="_blank" rel="noopener noreferrer">
+      {{ linkedin() }} Let&rsquo;s talk
+    </a>
     {% if site.cvReady %}
     <a class="btn btn--secondary" href="{{ site.cv }}" download>Download CV</a>
-    {% else %}
-    <a class="btn btn--secondary" href="{{ site.linkedin }}"
-       target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
     {% endif %}
   </div>
 </section>
@@ -77,9 +76,16 @@ permalink: /
           creating experiences for others, I&rsquo;m capturing moments with my camera
           or unwinding in the waves.
         </p>
-        <div class="card__cta">
-          <a class="btn btn--primary" href="{{ site.linkedin }}"
-             target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
+        {#- Figma 2230:13642 — the emphasis flips here: CV takes the dark primary
+            and "Let's talk" goes full LinkedIn blue. -#}
+        <div class="card__cta btn-row">
+          {% if site.cvReady %}
+          <a class="btn btn--primary" href="{{ site.cv }}" download>Download CV</a>
+          {% endif %}
+          <a class="btn btn--linkedin" href="{{ site.linkedin }}"
+             target="_blank" rel="noopener noreferrer">
+            {{ linkedin() }} Let&rsquo;s talk
+          </a>
         </div>
       </div>
       <div class="about__media">

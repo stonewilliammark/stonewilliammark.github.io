@@ -39,10 +39,10 @@ src/
 │   ├── work.json          shared config for every case study (layout, URL pattern)
 │   └── *.md               ← one markdown file per case study. This is the content.
 ├── _includes/
-│   ├── base.njk           <head>, meta tags, nav, footer
+│   ├── base.njk           <head>, meta tags, nav
 │   ├── case-study.njk     the case study page template
-│   └── partials/          nav, footer, work card
-├── assets/css/styles.css  the whole design system, ~600 lines
+│   └── partials/          nav, work card, icons
+├── assets/css/styles.css  the whole design system
 ├── assets/js/app.js       topic filter + carousel (progressive enhancement only)
 ├── img/<slug>/            case study images
 └── assets/William-Stone-CV.pdf
@@ -58,22 +58,22 @@ Colour, type and spacing tokens are transcribed at the top of `styles.css` with 
 
 Deliberate departures from the mocks, all agreed 2026-08-10:
 
-- **No contact form.** Two routes out instead: LinkedIn, and a downloadable CV.
+- **No contact form, and no footer.** The "Want to connect?" section and the footer were both
+  removed from the design (2026-08-11). Contact lives in the nav CTA, the hero, and the About card.
 - **Prose capped at ~70 characters.** The mocks ran body text the full 1336px container width
   (~116 characters per line); the cap is set by `--measure`.
 - **No "Skills" nav item.** The mocks had the link but no such page was ever designed.
 - **Topic names normalised**, so the filter doesn't show near-duplicate chips.
 
-## Turning on the CV download
+## The CV download
 
-The "Download CV" CTA is gated so a dead button never ships. To enable it:
+Live at `src/assets/William-Stone-CV.pdf`, from the phone-free `v8_2026-08_web-safe` resume.
+Verified before publishing: no phone number, contact line is `Sydney, NSW | email` only, and
+no restructure or team-size language.
 
-1. Put the PDF at `src/assets/William-Stone-CV.pdf`.
-2. Set `"cvReady": true` in `src/_data/site.json`.
-3. Commit and push.
-
-Until then the hero and footer fall back to LinkedIn. **The PDF must be the phone-free
-version** — the public CV is intended to carry email only.
+To replace it, drop a new PDF at that path and push. The `"cvReady"` flag in
+`src/_data/site.json` still gates both CV buttons — set it to `false` to hide them rather
+than ever shipping a link that 404s.
 
 ## Accessibility notes
 

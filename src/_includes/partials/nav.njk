@@ -1,5 +1,7 @@
+{%- from "partials/icons.njk" import linkedin -%}
+
 {#- A floating translucent pill, 64px tall and 24px from the top of the page
-    (Figma 2227:7927 / 2227:7928) — not a full-width bar. The wrapper is
+    (Figma 2230:13515 / 2230:13516) — not a full-width bar. The wrapper is
     pointer-events:none so the empty space either side of the pill never
     intercepts clicks on the content beneath it.
 
@@ -7,16 +9,19 @@
     was ever designed, so it would ship as a dead link (decided 2026-08-10). -#}
 <header class="nav">
   <div class="container">
-  <nav class="nav__pill" aria-label="Primary">
-    <div class="nav__group">
-      <a class="nav__brand" href="/">William Stone</a>
-      <a class="nav__link" href="/work/"
-         {% if page.url == "/work/" %}aria-current="page"{% endif %}>Work</a>
-      <a class="nav__link" href="/#about">About</a>
-    </div>
-    {#- External, so noopener/noreferrer per the security baseline. -#}
-    <a class="nav__cta" href="{{ site.linkedin }}"
-       target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
-  </nav>
+    <nav class="nav__pill" aria-label="Primary">
+      <div class="nav__group">
+        <a class="nav__brand" href="/">William Stone</a>
+        <a class="nav__link" href="/work/"
+           {% if page.url == "/work/" %}aria-current="page"{% endif %}>Work</a>
+        <a class="nav__link" href="/#about">About</a>
+      </div>
+      {#- Dark fill with a LinkedIn-blue border (Figma 2230:13710). External, so
+          noopener/noreferrer per the security baseline. -#}
+      <a class="btn btn--dark-linkedin" href="{{ site.linkedin }}"
+         target="_blank" rel="noopener noreferrer">
+        {{ linkedin() }} Let&rsquo;s talk
+      </a>
+    </nav>
   </div>
 </header>
