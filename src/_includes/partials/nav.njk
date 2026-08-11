@@ -1,17 +1,22 @@
+{#- A floating translucent pill, 64px tall and 24px from the top of the page
+    (Figma 2227:7927 / 2227:7928) — not a full-width bar. The wrapper is
+    pointer-events:none so the empty space either side of the pill never
+    intercepts clicks on the content beneath it.
+
+    "Skills" is intentionally absent: the mocks include the tab but no such page
+    was ever designed, so it would ship as a dead link (decided 2026-08-10). -#}
 <header class="nav">
-  <nav class="container nav__inner" aria-label="Primary">
-    <a class="nav__brand" href="/">{{ site.name }}</a>
-    <ul class="nav__links">
-      <li>
-        <a class="nav__link" href="/work/"
-           {% if page.url == "/work/" %}aria-current="page"{% endif %}>Work</a>
-      </li>
-      <li>
-        <a class="nav__link" href="/#about">About</a>
-      </li>
-    </ul>
-    {#- Primary CTA. External, so noopener/noreferrer per the security baseline. -#}
-    <a class="btn btn--primary nav__cta" href="{{ site.linkedin }}"
+  <div class="container">
+  <nav class="nav__pill" aria-label="Primary">
+    <div class="nav__group">
+      <a class="nav__brand" href="/">William Stone</a>
+      <a class="nav__link" href="/work/"
+         {% if page.url == "/work/" %}aria-current="page"{% endif %}>Work</a>
+      <a class="nav__link" href="/#about">About</a>
+    </div>
+    {#- External, so noopener/noreferrer per the security baseline. -#}
+    <a class="nav__cta" href="{{ site.linkedin }}"
        target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
   </nav>
+  </div>
 </header>

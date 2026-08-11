@@ -1,6 +1,7 @@
 /* ==========================================================================
    stonewilliam.com
-   Tokens transcribed from Figma "Portfolio" → Dev handover (node 2227:7925).
+   Transcribed from Figma "Portfolio" → Dev handover (page node 2227:7925).
+   Node references are noted against the components they describe.
    Light-only by design; the mocks define no dark theme.
    ========================================================================== */
 
@@ -25,13 +26,30 @@
   /* Colour ---------------------------------------------------------------- */
   --ink: #1d1d1f;
   --muted: #6f6f74;
-  /* Brand accent, as designed. NOTE: measured 2.25:1 on white — the uppercase
-     eyebrow using it fails WCAG AA (needs 4.5:1, or 3:1 as large text).
-     Left as designed pending a call; #9c6c34 would clear AA at 4.56:1. */
+  /* Brand accent, as designed. Used as a button FILL (with ink text: 7.1:1) and
+     as the hero eyebrow text. As text on white it measures 2.25:1 and does not
+     meet WCAG AA — kept deliberately, William's call 2026-08-11. */
   --accent: #d7a36e;
-  --surface: #f5f5f5;
+  --surface: #f5f5f5; /* the flat grey: About section band, secondary buttons */
   --white: #fff;
   --link: #1570ef;
+  --linkedin: #0a66c2;
+
+  /* THE MATERIAL --------------------------------------------------------------
+     One translucent fill shared by the nav pill and every card. Because it is
+     translucent it resolves differently against each section, which is exactly
+     how the design works — verified against Figma:
+       over #ffffff → #f7f7f7   (Selected work cards)
+       over #f5f5f5 → #eeeeee   (About card)
+       over #2d2d2d → #3a3a3a   (Connect card)
+     Never hardcode those results; let the material do it. */
+  --material: rgb(179 179 179 / 0.1);
+  --material-hover: rgb(179 179 179 / 0.18);
+  --material-blur: 50px;
+  /* The light-catching rim on the glass (nav pill + the dark footer card). */
+  --material-edge: inset 2px 3px 3px -3px rgb(255 255 255 / 0.6),
+    inset 0 -1px 1px 0 rgb(255 255 255 / 0.25),
+    inset 0 1px 1px 0 rgb(255 255 255 / 0.25);
 
   --panel-from: #414141;
   --panel-mid: #353535;
@@ -40,30 +58,29 @@
 
   --chip-bg: rgb(194 194 194 / 0.2);
   --chip-bg-hover: rgb(194 194 194 / 0.35);
+  /* Case-study page chips use muted text at 14px; --muted measured 4.19:1 on the
+     resolved chip grey, so this shade darker clears AA at 4.65:1. Card chips use
+     ink instead (14.9:1) — see .chip--card. */
+  --chip-text: #68686d;
   --hairline: rgb(29 29 31 / 0.1);
 
-  /* Chips sit on a translucent grey that resolves to #f3f3f3 on white and
-     #ebebeb on --surface. --muted measured 4.50:1 / 4.19:1 there, so 14px chip
-     text missed WCAG AA. This is a shade darker and clears it at 4.99 / 4.65. */
-  --chip-text: #68686d;
-
   --footer-bg: #2d2d2d;
-  --footer-card: #383838;
-  --footer-border: #4a4a4a;
   --on-dark: #f5f5f7;
-  --on-dark-muted: #a1a1a6;
+  --on-dark-muted: #aeaeae;
 
   /* Type ------------------------------------------------------------------ */
   --font: -apple-system, BlinkMacSystemFont, "Inter var", Inter, system-ui,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-  --step-eyebrow: 1rem;
+  --step-eyebrow: 1.125rem; /* 18px, tracking .17em */
   --step-h1: clamp(2.5rem, 1.6rem + 3.6vw, 4rem); /* 40 → 64 */
-  --step-h2: clamp(1.5rem, 1.15rem + 1.4vw, 2rem); /* 24 → 32 */
-  --step-deck: clamp(1.125rem, 0.9rem + 0.9vw, 1.75rem); /* 18 → 28 */
+  --step-section: clamp(2rem, 1.2rem + 3.2vw, 3.5rem); /* 32 → 56 section headings */
+  --step-h2: clamp(1.5rem, 1.15rem + 1.4vw, 2rem); /* 24 → 32 case-study headings */
+  --step-deck: clamp(1.125rem, 0.9rem + 0.9vw, 1.75rem); /* 18 → 28 hero deck */
   --step-body: clamp(1.0625rem, 0.98rem + 0.35vw, 1.5rem); /* 17 → 24 */
-  --step-card-title: clamp(1.25rem, 1.05rem + 0.8vw, 1.5rem);
-  --step-ui: 1rem;
+  --step-card-title: clamp(1.5rem, 1.1rem + 1.6vw, 2rem); /* 24 → 32 */
+  --step-card-deck: clamp(1.0625rem, 0.95rem + 0.5vw, 1.5rem); /* 17 → 24 */
+  --step-ui: 1rem; /* every button and nav link: 16px */
   --step-chip: 0.875rem;
 
   /* Space ----------------------------------------------------------------- */
@@ -71,13 +88,16 @@
   --measure: 800px; /* prose cap ≈ 70 characters */
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
   --block: 1.5rem; /* the design's 24px rhythm */
-  --section-y: clamp(3.5rem, 2rem + 6vw, 7rem);
+  --section-y: clamp(3.5rem, 2rem + 6vw, 5rem); /* 80px at desktop */
+  --section-gap: clamp(2rem, 1rem + 3vw, 3.5rem); /* 56px header → content */
+  --card-pad: clamp(1.25rem, 0.6rem + 2.4vw, 2rem); /* 32px at desktop */
 
   --radius-panel: 24px;
   --radius-card: 24px;
   --radius-pill: 100px;
 
-  --nav-h: 112px;
+  --nav-offset: 24px;
+  --nav-h: 64px;
 }
 
 /* Reset -------------------------------------------------------------------- */
@@ -90,6 +110,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* Anchor targets clear the floating pill. */
+  scroll-padding-top: calc(var(--nav-h) + var(--nav-offset) * 2);
 }
 
 body {
@@ -139,22 +161,14 @@ button {
   border-radius: 4px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
 /* Layout ------------------------------------------------------------------- */
+/* In Figma the 1336px is the CONTENT width — cards, the nav pill and section
+   headers all span exactly 1336 and the page margin sits outside that. So the
+   gutter is added to max-width rather than eaten out of it, otherwise every
+   panel renders 96px narrow at desktop. */
 .container {
   width: 100%;
-  max-width: var(--container);
+  max-width: calc(var(--container) + var(--gutter) * 2);
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
@@ -165,12 +179,6 @@ button {
 
 .section--surface {
   background: var(--surface);
-}
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--block);
 }
 
 .skip-link {
@@ -188,11 +196,25 @@ button {
   left: 0;
 }
 
+/* Icons -------------------------------------------------------------------- */
+.icon {
+  flex: none;
+}
+
+.icon--chevron {
+  width: 10.5px;
+  height: 18px;
+}
+
+.icon--flip {
+  transform: rotate(180deg);
+}
+
 /* Typography --------------------------------------------------------------- */
 .eyebrow {
   font-size: var(--step-eyebrow);
   font-weight: 500;
-  letter-spacing: 0.17em;
+  letter-spacing: 0.17em; /* Figma 3.06px / 18px */
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -200,16 +222,17 @@ button {
 .h1 {
   font-size: var(--step-h1);
   font-weight: 700;
-  line-height: 1.03;
+  line-height: 1.031; /* Figma 66px / 64px */
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
-.h2 {
-  font-size: var(--step-h2);
+/* Section headings — "Selected work", "About me", "Want to connect?" (56px). */
+.section-title {
+  font-size: var(--step-section);
   font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
@@ -221,57 +244,25 @@ button {
   text-wrap: pretty;
 }
 
-.prose {
-  max-width: var(--measure);
-  color: var(--muted);
-  text-wrap: pretty;
-}
-
-.prose > * + * {
-  margin-top: 1em;
-}
-
-.prose strong {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.prose ul,
-.prose ol {
-  padding-left: 1.5em;
-}
-
-.prose li + li {
-  margin-top: 0.5em;
-}
-
-.prose a {
-  color: var(--link);
-  text-underline-offset: 0.2em;
-}
-
 /* Buttons ------------------------------------------------------------------ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
+  gap: 0.75rem; /* Figma 12px, for the icon buttons */
+  padding: 1rem 1.5rem; /* 16px 24px */
   font-size: var(--step-ui);
   font-weight: 500;
   line-height: 1;
   text-decoration: none;
   border-radius: var(--radius-pill);
   border: 1px solid transparent;
-  transition: transform 0.18s ease, background-color 0.18s ease, opacity 0.18s ease;
+  transition: transform 0.18s ease, background-color 0.18s ease;
 }
 
-.btn:hover {
-  transform: translateY(-1px);
-}
-
+/* Feedback on press, not release — apple-design §1. */
 .btn:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .btn--primary {
@@ -293,19 +284,36 @@ button {
   background: #ebebeb;
 }
 
-.btn--on-dark {
-  background: var(--white);
+/* The card CTA on the home carousel: outlined, transparent (Figma 2227:7974). */
+.btn--outline {
+  background: transparent;
+  border-color: #2d2d2d;
   color: var(--ink);
 }
 
-.btn--ghost-dark {
-  background: transparent;
-  border-color: var(--footer-border);
-  color: var(--on-dark);
+.btn--outline:hover {
+  background: var(--material-hover);
 }
 
-.btn--ghost-dark:hover {
-  background: rgb(255 255 255 / 0.08);
+/* Footer primary — the designed accent fill. Ink on accent is 7.1:1. */
+.btn--accent {
+  background: var(--accent);
+  border-color: #2d2d2d;
+  color: var(--ink);
+}
+
+.btn--accent:hover {
+  background: #e0b183;
+}
+
+.btn--linkedin {
+  background: var(--linkedin);
+  border-color: var(--linkedin);
+  color: var(--white);
+}
+
+.btn--linkedin:hover {
+  background: #0b5aa8;
 }
 
 .btn-row {
@@ -330,11 +338,19 @@ button {
   min-height: 36px;
   padding: 0.25rem 1rem;
   font-size: var(--step-chip);
+  line-height: 1;
   color: var(--chip-text);
   background: var(--chip-bg);
   border: 0;
   border-radius: var(--radius-pill);
   white-space: nowrap;
+}
+
+/* Card chips are shorter and use ink text (Figma 2227:7963 vs 2227:9003). */
+.chip--card {
+  min-height: 0;
+  height: 28px;
+  color: var(--ink);
 }
 
 .chip--button {
@@ -351,9 +367,9 @@ button {
 }
 
 /* The designed dark artefact panel ----------------------------------------
-   Panels are exported from Figma complete — the gradient, composition and
-   corner radius are already in the image. The gradient below is only the
-   backdrop shown while the image loads, so there is no flash of white. */
+   Panels export from Figma complete — gradient, composition and corner radius
+   are already in the image. The gradient below is only the backdrop shown
+   while the image loads, so there is no flash of white. */
 .panel {
   overflow: hidden;
   aspect-ratio: 1336 / 472;
@@ -385,68 +401,114 @@ button {
   max-width: var(--measure);
 }
 
-/* Nav ---------------------------------------------------------------------- */
+/* Nav — a floating pill, not a bar (Figma 2227:7927 / 2227:7928) ----------- */
 .nav {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgb(255 255 255 / 0.82);
-  backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--hairline);
+  padding-block: var(--nav-offset);
+  pointer-events: none; /* the wrapper is empty space; only the pill is clickable */
 }
 
-.nav__inner {
+/* The pill sits inside .container so its edges line up with the cards and
+   section headers at every viewport width, not just at the design width. */
+.nav__pill {
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  min-height: 64px;
-  padding-block: 1rem;
+  gap: 1rem;
+  width: 100%;
+  height: var(--nav-h);
+  padding: 12px 16px;
+  overflow: hidden;
+  background: var(--material);
+  backdrop-filter: blur(var(--material-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--material-blur)) saturate(180%);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--material-edge);
+}
+
+/* Brand and links sit in one row with no gap — each item's own 16px of
+   padding does the spacing, matching the Figma frame. */
+.nav__group {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .nav__brand {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  letter-spacing: 0.09em;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 16px;
+  font-family: "Helvetica Neue", var(--font);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.17em; /* Figma 2.72px / 16px */
+  /* Uppercased as presentation so screen readers still announce the real name. */
   text-transform: uppercase;
+  color: var(--ink);
   text-decoration: none;
   white-space: nowrap;
 }
 
-.nav__links {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
 .nav__link {
-  font-size: 0.9375rem;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding-inline: 16px;
+  font-size: var(--step-ui);
+  font-weight: 500;
   color: var(--muted);
   text-decoration: none;
-  transition: color 0.18s ease;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition: color 0.18s ease, background-color 0.18s ease;
 }
 
 .nav__link:hover,
 .nav__link[aria-current="page"] {
   color: var(--ink);
+  background: var(--material-hover);
 }
 
 .nav__cta {
-  padding: 0.6rem 1.1rem;
-  font-size: 0.9375rem;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding-inline: 16px;
+  font-size: var(--step-ui);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--white);
+  background: var(--ink);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.18s ease, transform 0.18s ease;
 }
 
-/* Hero -------------------------------------------------------------------- */
+.nav__cta:hover {
+  background: #000;
+}
+
+.nav__cta:active {
+  transform: scale(0.98);
+}
+
+/* Hero (Figma 2227:7940) --------------------------------------------------- */
 .hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--block);
   text-align: center;
-  padding-block: clamp(3rem, 2rem + 5vw, 7rem) var(--section-y);
+  /* Asymmetric in the design: 112px above, 80px below. */
+  padding-block: clamp(3rem, 1.5rem + 5vw, 7rem) var(--section-y);
+}
+
+.hero .h1 {
+  max-width: 558px; /* Figma 557.8px */
 }
 
 .hero .deck {
@@ -458,53 +520,57 @@ button {
   padding-top: var(--block);
 }
 
-/* Section headers ---------------------------------------------------------- */
+/* Section header (Figma 2227:7952) ---------------------------------------- */
 .section__head {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 1.5rem;
-  margin-bottom: 2rem;
+  padding-inline: 4px;
+  margin-bottom: var(--section-gap);
 }
 
-.link-arrow {
+/* "View all work" — flat grey pill with a chevron, ink text. */
+.pill-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9375rem;
-  color: var(--chip-text);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-pill);
-  background: var(--chip-bg);
-  white-space: nowrap;
-  transition: background-color 0.18s ease, color 0.18s ease;
-}
-
-.link-arrow:hover {
-  background: var(--chip-bg-hover);
+  gap: 1rem;
+  height: 51px;
+  padding: 8px 24px;
+  font-size: var(--step-ui);
+  font-weight: 400;
   color: var(--ink);
+  background: var(--surface);
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.18s ease;
 }
 
-/* Work cards -------------------------------------------------------------- */
+.pill-link:hover {
+  background: #ebebeb;
+}
+
+.section--surface .pill-link,
+.footer .pill-link {
+  background: var(--material);
+}
+
+/* Work card (Figma 2227:7958) --------------------------------------------- */
 .card {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 3rem);
+  gap: var(--card-pad);
   align-items: center;
-  padding: clamp(1.25rem, 2.5vw, 2rem);
-  background: var(--surface);
+  padding: var(--card-pad);
+  background: var(--material);
   border-radius: var(--radius-card);
-}
-
-.section--surface .card {
-  background: var(--white);
 }
 
 .card__body {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--block);
   align-items: flex-start;
 }
 
@@ -513,6 +579,7 @@ button {
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.01em;
+  max-width: 462px; /* Figma 461.7px */
 }
 
 .card__title a {
@@ -520,40 +587,47 @@ button {
 }
 
 .card__deck {
-  font-size: 1rem;
+  font-size: var(--step-card-deck);
+  font-weight: 500;
+  line-height: 1.35;
   color: var(--muted);
+  max-width: 419px; /* Figma 418.6px */
   text-wrap: pretty;
 }
 
-/* Cards use their own narrower crop, exported separately from Figma. */
+/* The CTA sits in its own 24px-topped block in the design. */
+.card__cta {
+  padding-top: var(--block);
+}
+
 .card .panel {
   aspect-ratio: 620 / 472;
   width: 100%;
 }
 
-@media (max-width: 860px) {
-  .card {
-    grid-template-columns: 1fr;
-  }
-  .card__media {
-    order: -1;
-  }
-}
-
-/* Carousel ---------------------------------------------------------------- */
+/* Carousel (Figma 2227:7957 + 2227:8026) ---------------------------------- */
 .carousel {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--section-gap);
 }
 
+/* Slides are container-width, and the next card peeks past the right edge.
+   The track is a full-width sibling of .container rather than a child, so the
+   peek can extend into the page margin — clipping it at the gutter would show
+   only a ~48px sliver instead of the designed one. Its own inset re-aligns the
+   slides with the container's content edge at every width, and because that
+   inset is a percentage of the parent it never trips over scrollbar width the
+   way a 100vw full-bleed would. */
 .carousel__track {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
-  gap: 1.5rem;
+  gap: var(--block);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  padding-inline: max(var(--gutter), calc((100% - var(--container)) / 2));
+  scroll-padding-inline: max(var(--gutter), calc((100% - var(--container)) / 2));
   padding-bottom: 0.25rem;
 }
 
@@ -566,19 +640,25 @@ button {
   min-width: 0;
 }
 
+/* Spacer · dots (centred) · arrows — matching the designed 88 / 1fr / 88. */
 .carousel__controls {
-  display: flex;
+  display: grid;
+  grid-template-columns: 88px 1fr 88px;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
 }
 
 .carousel__dots {
-  display: flex;
-  gap: 0.5rem;
+  grid-column: 2;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  height: 36px;
+  padding-inline: 16px;
   margin: 0;
-  padding: 0;
   list-style: none;
+  background: var(--material);
+  border-radius: var(--radius-pill);
 }
 
 .carousel__dot {
@@ -586,32 +666,41 @@ button {
   height: 8px;
   padding: 0;
   border-radius: var(--radius-pill);
-  background: rgb(29 29 31 / 0.2);
+  background: rgb(29 29 31 / 0.25);
   transition: background-color 0.18s ease, width 0.18s ease;
 }
 
 .carousel__dot[aria-current="true"] {
-  width: 22px;
+  width: 24px;
   background: var(--ink);
 }
 
 .carousel__arrows {
+  grid-column: 3;
+  justify-self: end;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .carousel__arrow {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  color: var(--muted);
+  background: var(--surface);
   border-radius: var(--radius-pill);
-  background: var(--chip-bg);
-  transition: background-color 0.18s ease;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.carousel__arrow .icon--chevron {
+  width: 9px;
+  height: auto;
 }
 
 .carousel__arrow:hover:not(:disabled) {
-  background: var(--chip-bg-hover);
+  background: #ebebeb;
+  color: var(--ink);
 }
 
 .carousel__arrow:disabled {
@@ -619,46 +708,43 @@ button {
   cursor: default;
 }
 
-/* About ------------------------------------------------------------------- */
+/* About card (Figma 2227:8050) -------------------------------------------- */
 .about {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 3rem);
+  gap: var(--card-pad);
   align-items: center;
-  padding: clamp(1.25rem, 2.5vw, 2rem);
-  background: var(--white);
+  padding: var(--card-pad);
+  background: var(--material);
   border-radius: var(--radius-card);
 }
 
 .about__portrait {
   width: 100%;
-  border-radius: 16px;
+  border-radius: var(--radius-panel);
   aspect-ratio: 620 / 472;
   object-fit: cover;
-}
-
-@media (max-width: 860px) {
-  .about {
-    grid-template-columns: 1fr;
-  }
-  .about__media {
-    order: -1;
-  }
 }
 
 /* Case study page --------------------------------------------------------- */
 .backlink {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   padding-block: 1.25rem;
-  font-size: 0.9375rem;
+  font-size: var(--step-ui);
   color: var(--muted);
   text-decoration: none;
 }
 
 .backlink:hover {
   color: var(--ink);
+}
+
+/* The chevron is drawn tall (10.5×18); scale it to sit with 16px text. */
+.backlink .icon--chevron {
+  width: 8px;
+  height: 14px;
 }
 
 .case-head {
@@ -681,7 +767,6 @@ button {
   padding-block: clamp(2.5rem, 4vw, 4rem);
 }
 
-/* Markdown output inside a case study */
 .case-body h2 {
   font-size: var(--step-h2);
   font-weight: 600;
@@ -741,45 +826,46 @@ button {
   display: none;
 }
 
-/* Section wrapper generated per H2 group */
-.case-section {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Footer ------------------------------------------------------------------ */
+/* Footer / Want to connect (Figma 2227:8059) ------------------------------ */
 .footer {
   background: var(--footer-bg);
   color: var(--on-dark);
   padding-block: var(--section-y);
 }
 
-.footer__title {
-  font-size: var(--step-h2);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: 2rem;
+.footer .section-title {
+  color: var(--on-dark);
 }
 
 .footer__card {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--block);
   align-items: flex-start;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  background: var(--footer-card);
-  border: 1px solid var(--footer-border);
+  padding: var(--card-pad);
+  background: var(--material);
   border-radius: var(--radius-card);
+  box-shadow: var(--material-edge);
 }
 
 .footer__card h3 {
-  font-size: 1.25rem;
+  font-size: var(--step-card-title);
   font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--on-dark);
 }
 
 .footer__card p {
+  font-size: var(--step-card-deck);
+  font-weight: 500;
+  line-height: 1.35;
   color: var(--on-dark-muted);
-  max-width: 60ch;
+  max-width: 532px; /* Figma 531.8px */
+}
+
+.footer__card .btn-row {
+  padding-top: var(--block);
 }
 
 .footer__meta {
@@ -787,9 +873,9 @@ button {
   flex-wrap: wrap;
   gap: 1rem 1.5rem;
   justify-content: space-between;
-  margin-top: 2.5rem;
+  margin-top: var(--section-gap);
   padding-top: 1.5rem;
-  border-top: 1px solid var(--footer-border);
+  border-top: 1px solid rgb(255 255 255 / 0.12);
   font-size: 0.875rem;
   color: var(--on-dark-muted);
 }
@@ -802,16 +888,11 @@ button {
   color: var(--on-dark);
 }
 
-/* Next case study -------------------------------------------------------- */
-.next-case .card {
-  background: var(--white);
-}
-
-/* All-work list ---------------------------------------------------------- */
+/* All-work list ----------------------------------------------------------- */
 .work-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--block);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -821,7 +902,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--section-gap);
 }
 
 .work-item[hidden] {
@@ -830,4 +911,102 @@ button {
 
 .filter-empty {
   color: var(--muted);
+}
+
+/* Responsive -------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .card,
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  .card__media,
+  .about__media {
+    order: -1;
+  }
+
+  .card__title,
+  .card__deck {
+    max-width: none;
+  }
+
+  .card .panel {
+    aspect-ratio: 1336 / 472;
+  }
+}
+
+@media (max-width: 640px) {
+  /* The mobile frame (2227:8547) drops the wordmark and keeps the tabs plus the
+     CTA — which is also what stops the pill overflowing at 393px. */
+  .nav__brand {
+    display: none;
+  }
+
+  .nav {
+    padding-inline: 0.75rem;
+  }
+
+  .nav__pill {
+    padding-inline: 8px;
+  }
+
+  .nav__link {
+    padding-inline: 12px;
+  }
+
+  .section__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .carousel__controls {
+    grid-template-columns: 1fr auto;
+  }
+
+  .carousel__dots {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .carousel__arrows {
+    grid-column: 2;
+  }
+}
+
+/* Accessibility preferences — apple-design §14 ---------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .nav__pill {
+    background: #f2f2f2;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .card,
+  .about,
+  .carousel__dots {
+    background: #f2f2f2;
+  }
+  .footer__card {
+    background: #3a3a3a;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .nav__pill,
+  .card,
+  .about,
+  .footer__card {
+    border: 1px solid currentColor;
+  }
 }

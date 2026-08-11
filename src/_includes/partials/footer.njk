@@ -1,8 +1,13 @@
-{#- The designed "Want to connect?" section, with the contact form removed.
-    Two routes out: LinkedIn for a conversation, the CV for the detail. -#}
+{%- from "partials/icons.njk" import linkedin, download -%}
+
+{#- The designed "Want to connect?" section (Figma 2227:8059), with the contact
+    form removed. The design's two buttons map across: the accent "Request call
+    back" slot becomes Download CV, and the LinkedIn-blue button stays as-is. -#}
 <footer class="footer">
   <div class="container">
-    <h2 class="footer__title">Want to connect?</h2>
+    <div class="section__head">
+      <h2 class="section-title">Want to connect?</h2>
+    </div>
     <div class="footer__card">
       <h3>Let&rsquo;s talk</h3>
       <p>
@@ -12,11 +17,15 @@
         full detail plus my email.{% else %}The quickest way to reach me is LinkedIn.{% endif %}
       </p>
       <div class="btn-row">
-        <a class="btn btn--on-dark" href="{{ site.linkedin }}"
-           target="_blank" rel="noopener noreferrer">Message me on LinkedIn</a>
         {% if site.cvReady %}
-        <a class="btn btn--ghost-dark" href="{{ site.cv }}" download>Download CV (PDF)</a>
+        <a class="btn btn--accent" href="{{ site.cv }}" download>
+          {{ download() }} Download CV
+        </a>
         {% endif %}
+        <a class="btn btn--linkedin" href="{{ site.linkedin }}"
+           target="_blank" rel="noopener noreferrer">
+          {{ linkedin() }} Message me on LinkedIn
+        </a>
       </div>
     </div>
     <div class="footer__meta">

@@ -80,12 +80,19 @@
       return button;
     });
 
+    // The track is inset by the page gutter so the next card peeks past the
+    // container edge, so a slide's snap position is its offset minus that inset.
+    function slideOffset(slide) {
+      var inset = parseFloat(getComputedStyle(track).paddingInlineStart) || 0;
+      return slide.offsetLeft - track.offsetLeft - inset;
+    }
+
     function currentIndex() {
       var pos = track.scrollLeft;
       var closest = 0;
       var smallest = Infinity;
       slides.forEach(function (slide, index) {
-        var distance = Math.abs(slide.offsetLeft - track.offsetLeft - pos);
+        var distance = Math.abs(slideOffset(slide) - pos);
         if (distance < smallest) {
           smallest = distance;
           closest = index;
@@ -96,9 +103,8 @@
 
     function scrollToIndex(index) {
       var clamped = Math.max(0, Math.min(slides.length - 1, index));
-      var target = slides[clamped];
       track.scrollTo({
-        left: target.offsetLeft - track.offsetLeft,
+        left: slideOffset(slides[clamped]),
         behavior: prefersReducedMotion() ? "auto" : "smooth",
       });
     }

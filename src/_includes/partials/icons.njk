@@ -1,0 +1,28 @@
+{#- Inline SVG icons. Inlined rather than fetched so there is no extra request and
+    no relaxation of the same-origin CSP. All use currentColor, so they inherit the
+    button or link colour rather than needing a fill per context.
+
+    chevron and linkedin geometry are the real exports from Figma
+    (nodes 2227:7956 and 2227:8083); download is hand-drawn to match their weight. -#}
+
+{% macro chevron(direction = "right") %}
+<svg class="icon icon--chevron{% if direction == 'left' %} icon--flip{% endif %}"
+     viewBox="0 0 11 19" width="11" height="19" fill="none" aria-hidden="true" focusable="false">
+  <path fill="currentColor" d="M0.462546 0.363196C0.975217 -0.149839 2.02293 -0.105209 2.55788 0.40778L9.66873 7.05463C10.7833 8.08065 10.7833 9.93194 9.66873 10.9803L2.55788 17.6048C1.95605 18.1624 1.0421 18.2071 0.484824 17.6717C-0.13933 17.0918 -0.161608 16.1104 0.440268 15.5305L7.43963 9.01747L0.440267 2.48212C-0.139331 1.9245 -0.161608 0.9654 0.462546 0.363196Z"/>
+</svg>
+{% endmacro %}
+
+{% macro linkedin() %}
+<svg class="icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+  <path fill="currentColor" d="M12.6667 0H3.33333C1.49267 0 0 1.49267 0 3.33333V12.6667C0 14.5073 1.49267 16 3.33333 16H12.6667C14.508 16 16 14.5073 16 12.6667V3.33333C16 1.49267 14.508 0 12.6667 0ZM5.33333 12.6667H3.33333V5.33333H5.33333V12.6667ZM4.33333 4.488C3.68933 4.488 3.16667 3.96133 3.16667 3.312C3.16667 2.66267 3.68933 2.136 4.33333 2.136C4.97733 2.136 5.5 2.66267 5.5 3.312C5.5 3.96133 4.978 4.488 4.33333 4.488ZM13.3333 12.6667H11.3333V8.93067C11.3333 6.68533 8.66667 6.85533 8.66667 8.93067V12.6667H6.66667V5.33333H8.66667V6.51C9.59733 4.786 13.3333 4.65867 13.3333 8.16067V12.6667Z"/>
+</svg>
+{% endmacro %}
+
+{% macro download() %}
+<svg class="icon" viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false"
+     stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 1.5v8"/>
+  <path d="M4.5 6.5 8 10l3.5-3.5"/>
+  <path d="M2 11.5v1.25A1.75 1.75 0 0 0 3.75 14.5h8.5A1.75 1.75 0 0 0 14 12.75V11.5"/>
+</svg>
+{% endmacro %}

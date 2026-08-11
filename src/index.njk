@@ -3,6 +3,7 @@ layout: base.njk
 permalink: /
 ---
 {% from "partials/work-card.njk" import card %}
+{% from "partials/icons.njk" import chevron %}
 {%- set selected = collections.caseStudies -%}
 
 <section class="container hero">
@@ -26,31 +27,35 @@ permalink: /
 <section class="section" aria-labelledby="selected-work-heading">
   <div class="container">
     <div class="section__head">
-      <h2 class="h2" id="selected-work-heading">Selected work</h2>
-      <a class="link-arrow" href="/work/">View all work <span aria-hidden="true">&rarr;</span></a>
+      <h2 class="section-title" id="selected-work-heading">Selected work</h2>
+      <a class="pill-link" href="/work/">View all work {{ chevron() }}</a>
     </div>
+  </div>
 
-    {#- Carousel: CSS scroll-snap does the work. The arrows and dots are
-        progressive enhancement — with JS off this is still a usable,
-        swipeable, fully readable list. -#}
-    <div class="carousel" data-carousel>
-      <div class="carousel__track" data-carousel-track tabindex="0"
-           role="group" aria-label="Selected case studies">
-        {%- for item in selected %}
-        <div class="carousel__slide" data-carousel-slide>
-          {{ card(item, "h3") }}
-        </div>
-        {%- endfor %}
+  {#- Carousel: native scroll-snap does the work, so it stays interruptible and
+      velocity-aware without any spring physics of our own. The arrows and dots
+      are progressive enhancement — with JS off this is still a usable,
+      swipeable, fully readable list.
+
+      The track deliberately sits OUTSIDE .container so the next card can peek
+      into the page margin, matching the design. -#}
+  <div class="carousel" data-carousel>
+    <div class="carousel__track" data-carousel-track tabindex="0"
+         role="group" aria-label="Selected case studies">
+      {%- for item in selected %}
+      <div class="carousel__slide" data-carousel-slide>
+        {{ card(item, "h3", "read") }}
       </div>
+      {%- endfor %}
+    </div>
+    <div class="container">
       <div class="carousel__controls" hidden data-carousel-controls>
         <ul class="carousel__dots" data-carousel-dots></ul>
         <div class="carousel__arrows">
-          <button class="carousel__arrow" type="button" data-carousel-prev aria-label="Previous case study">
-            <span aria-hidden="true">&larr;</span>
-          </button>
-          <button class="carousel__arrow" type="button" data-carousel-next aria-label="Next case study">
-            <span aria-hidden="true">&rarr;</span>
-          </button>
+          <button class="carousel__arrow" type="button" data-carousel-prev
+                  aria-label="Previous case study">{{ chevron("left") }}</button>
+          <button class="carousel__arrow" type="button" data-carousel-next
+                  aria-label="Next case study">{{ chevron() }}</button>
         </div>
       </div>
     </div>
@@ -60,21 +65,19 @@ permalink: /
 <section class="section section--surface" id="about" aria-labelledby="about-heading">
   <div class="container">
     <div class="section__head">
-      <h2 class="h2" id="about-heading">About me</h2>
+      <h2 class="section-title" id="about-heading">About me</h2>
     </div>
     <div class="about">
       <div class="card__body">
         <h3 class="card__title">Hey it&rsquo;s Will, thanks for popping by</h3>
-        <div class="prose">
-          <p>
-            I find my joy in creating interactions that feel natural and meaningful.
-            It&rsquo;s incredibly fulfilling to see someone&rsquo;s eyes light up in that
-            &ldquo;aha&rdquo; moment when they connect with my work. When I&rsquo;m not
-            creating experiences for others, I&rsquo;m capturing moments with my camera
-            or unwinding in the waves.
-          </p>
-        </div>
-        <div class="btn-row">
+        <p class="card__deck">
+          I find my joy in creating interactions that feel natural and meaningful.
+          It&rsquo;s incredibly fulfilling to see someone&rsquo;s eyes light up in that
+          &ldquo;aha&rdquo; moment when they connect with my work. When I&rsquo;m not
+          creating experiences for others, I&rsquo;m capturing moments with my camera
+          or unwinding in the waves.
+        </p>
+        <div class="card__cta">
           <a class="btn btn--primary" href="{{ site.linkedin }}"
              target="_blank" rel="noopener noreferrer">Let&rsquo;s talk</a>
         </div>

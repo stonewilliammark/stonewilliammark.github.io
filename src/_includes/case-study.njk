@@ -2,10 +2,11 @@
 layout: base.njk
 ---
 {% from "partials/work-card.njk" import card %}
+{% from "partials/icons.njk" import chevron %}
 {%- set next = collections.caseStudies | nextCaseStudy(page.url) -%}
 
 <div class="container">
-  <a class="backlink" href="/work/"><span aria-hidden="true">&larr;</span> Back to all work</a>
+  <a class="backlink" href="/work/">{{ chevron("left") }} Back to all work</a>
 </div>
 
 <article class="container">
@@ -39,10 +40,10 @@ layout: base.njk
 <section class="section section--surface next-case" aria-labelledby="next-case-heading">
   <div class="container">
     <div class="section__head">
-      <h2 class="h2" id="next-case-heading">Next case study</h2>
-      <a class="link-arrow" href="/work/">View all work <span aria-hidden="true">&rarr;</span></a>
+      <h2 class="section-title" id="next-case-heading">Next case study</h2>
+      <a class="pill-link" href="/work/">View all work {{ chevron() }}</a>
     </div>
-    {{ card(next, "h3") }}
+    {{ card(next, "h3", "time") }}
   </div>
 </section>
 {% endif %}

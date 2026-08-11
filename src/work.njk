@@ -5,13 +5,14 @@ title: All work
 description: Case studies in AI-driven product design, service design and design systems.
 ---
 {% from "partials/work-card.njk" import card %}
+{% from "partials/icons.njk" import chevron %}
 
 <div class="container">
-  <a class="backlink" href="/"><span aria-hidden="true">&larr;</span> Back</a>
+  <a class="backlink" href="/">{{ chevron("left") }} Back</a>
 </div>
 
 <section class="container section" aria-labelledby="all-work-heading">
-  <h1 class="h1" id="all-work-heading">All work</h1>
+  <h1 class="section-title" id="all-work-heading">All work</h1>
 
   {#- Filter chips. Counts come from the `topics` collection, so they are always
       correct — there is no hand-maintained list to fall out of sync. -#}
@@ -32,7 +33,7 @@ description: Case studies in AI-driven product design, service design and design
   <ul class="work-list" data-filter-list>
     {%- for item in collections.caseStudies %}
     <li class="work-item" data-topics="{% for topic in item.data.topics %}{{ topic | slugifyTopic }}{% if not loop.last %} {% endif %}{% endfor %}">
-      {{ card(item, "h2") }}
+      {{ card(item, "h2", "time") }}
     </li>
     {%- endfor %}
   </ul>

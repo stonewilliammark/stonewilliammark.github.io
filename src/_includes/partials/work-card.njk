@@ -1,7 +1,13 @@
+{%- from "partials/icons.njk" import chevron -%}
+
 {#- One card, used in three places: the home carousel, the All-work list, and the
     "Next case study" block. Everything comes from the collection item, so a new
-    markdown file appears in all three without touching this file. -#}
-{% macro card(item, headingLevel = "h3") %}
+    markdown file appears in all three without touching this file.
+
+    `cta` selects between the two treatments the design actually uses:
+      "read"  → outlined "Read case study" button (home carousel, Figma 2227:7974)
+      "time"  → "N min read →" pill (All-work list) -#}
+{% macro card(item, headingLevel = "h3", cta = "time") %}
   <article class="card">
     <div class="card__body">
       <{{ headingLevel }} class="card__title">
@@ -10,13 +16,19 @@
       <p class="card__deck">{{ item.data.deck }}</p>
       <ul class="chips">
         {%- for topic in item.data.topics %}
-        <li class="chip">{{ topic }}</li>
+        <li class="chip chip--card">{{ topic }}</li>
         {%- endfor %}
       </ul>
-      <a class="link-arrow" href="{{ item.url }}">
-        {{ (item.rawInput or item.templateContent) | readingTime }} min read
-        <span aria-hidden="true">&rarr;</span>
-      </a>
+      <div class="card__cta">
+        {% if cta == "read" %}
+        <a class="btn btn--outline" href="{{ item.url }}">Read case study</a>
+        {% else %}
+        <a class="pill-link" href="{{ item.url }}">
+          {{ (item.rawInput or item.templateContent) | readingTime }} min read
+          {{ chevron() }}
+        </a>
+        {% endif %}
+      </div>
     </div>
     <div class="card__media">
       <div class="panel">
