@@ -9,6 +9,7 @@ topics:
   - "UX design"
   - "UI design"
 hero: "/img/design-system-cultural-change/hero.png"
+thumb: "/img/design-system-cultural-change/thumb.png"
 heroAlt: "Transforming a design system through cultural change"
 order: 4
 ---

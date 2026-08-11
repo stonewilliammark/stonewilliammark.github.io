@@ -7,6 +7,7 @@ topics:
   - "UX design"
   - "UI design"
 hero: "/img/cultural-transformation/hero.png"
+thumb: "/img/cultural-transformation/thumb.png"
 heroAlt: "Cultural transformation in a data-driven organisation"
 order: 2
 ---

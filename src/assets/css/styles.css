@@ -342,13 +342,13 @@ button {
   color: var(--white);
 }
 
-/* The designed dark artefact panel ---------------------------------------- */
+/* The designed dark artefact panel ----------------------------------------
+   Panels are exported from Figma complete — the gradient, composition and
+   corner radius are already in the image. The gradient below is only the
+   backdrop shown while the image loads, so there is no flash of white. */
 .panel {
-  display: grid;
-  place-items: center;
-  padding: clamp(1.25rem, 3vw, 3rem);
-  aspect-ratio: 1336 / 472;
   overflow: hidden;
+  aspect-ratio: 1336 / 472;
   background: radial-gradient(
     ellipse at center,
     var(--panel-from) 0%,
@@ -360,11 +360,9 @@ button {
 }
 
 .panel__media {
-  width: auto;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .figure {
@@ -519,8 +517,9 @@ button {
   text-wrap: pretty;
 }
 
+/* Cards use their own narrower crop, exported separately from Figma. */
 .card .panel {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 620 / 472;
   width: 100%;
 }
 
@@ -626,7 +625,7 @@ button {
 .about__portrait {
   width: 100%;
   border-radius: 16px;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 620 / 472;
   object-fit: cover;
 }
 

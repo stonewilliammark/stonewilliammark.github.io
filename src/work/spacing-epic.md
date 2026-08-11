@@ -7,6 +7,7 @@ topics:
   - "UX design"
   - "UI design"
 hero: "/img/spacing-epic/hero.png"
+thumb: "/img/spacing-epic/thumb.png"
 heroAlt: "Reimagining spacing: The Quantium Design System spacing epic"
 order: 5
 ---

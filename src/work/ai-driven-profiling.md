@@ -8,6 +8,7 @@ topics:
   - "UX design"
   - "UI design"
 hero: "/img/ai-driven-profiling/hero.png"
+thumb: "/img/ai-driven-profiling/thumb.png"
 heroAlt: "Transforming customer insights with Ai-driven profiling"
 order: 1
 ---

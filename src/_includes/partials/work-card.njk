@@ -20,7 +20,9 @@
     </div>
     <div class="card__media">
       <div class="panel">
-        <img class="panel__media" src="{{ item.data.hero }}"
+        {#- Cards use their own narrower crop where one exists, falling back to
+            the hero so a new case study works with a single image. -#}
+        <img class="panel__media" src="{{ item.data.thumb or item.data.hero }}"
              alt="{{ item.data.heroAlt or item.data.title }}">
       </div>
     </div>

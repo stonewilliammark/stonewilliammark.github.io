@@ -5,6 +5,7 @@ topics:
   - "Service design"
   - "UX design"
 hero: "/img/service-blueprinting/hero.png"
+thumb: "/img/service-blueprinting/thumb.png"
 heroAlt: "Transforming CommBank iQ service delivery through blueprinting"
 order: 3
 ---
