@@ -1,7 +1,41 @@
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { minify } from "html-minifier-terser";
-import { readdirSync, rmSync, existsSync } from "node:fs";
+import { readdirSync, rmSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
+import sharp from "sharp";
+
+/**
+ * Social cards are 1200x630 (1.91:1) but the hero panels are 2.83:1, so handing
+ * a hero straight to LinkedIn/Slack centre-crops it and throws away the top and
+ * bottom third — exactly where the artwork sits.
+ *
+ * This letterboxes each hero onto the panel's own edge colour (#2f2f2f) instead.
+ * The panels have rounded corners with transparency, so flattening onto the same
+ * colour makes the padding invisible — it just reads as a taller panel.
+ *
+ * Runs before every build, so a new case study gets a correct card for free.
+ */
+const OG_BG = { r: 47, g: 47, b: 47, alpha: 1 };
+
+async function buildOgCards(imgDir) {
+  if (!existsSync(imgDir)) return 0;
+  let made = 0;
+  for (const entry of readdirSync(imgDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const hero = join(imgDir, entry.name, "hero.png");
+    const og = join(imgDir, entry.name, "og.png");
+    if (!existsSync(hero)) continue;
+    // Only regenerate when the hero is newer, so builds stay fast.
+    if (existsSync(og) && statSync(og).mtimeMs >= statSync(hero).mtimeMs) continue;
+    await sharp(hero)
+      .resize(1200, 630, { fit: "contain", background: OG_BG })
+      .flatten({ background: OG_BG })
+      .png({ compressionLevel: 9 })
+      .toFile(og);
+    made++;
+  }
+  return made;
+}
 
 /**
  * Required frontmatter for every case study.
@@ -30,6 +64,12 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/CNAME": "CNAME" });
 
   eleventyConfig.addWatchTarget("src/assets/");
+
+  // Generate the 1200x630 social cards before anything is copied or rendered.
+  eleventyConfig.on("eleventy.before", async () => {
+    const made = await buildOgCards("src/img");
+    if (made > 0) console.log(`[og] generated ${made} social card(s) at 1200x630`);
+  });
 
   // --- Images -------------------------------------------------------------
   // Optimises every <img> in the output HTML: generates WebP, builds a srcset,
@@ -114,6 +154,11 @@ export default function (eleventyConfig) {
       .replace(/^-+|-+$/g, "")
   );
 
+  // /img/<slug>/hero.png -> /img/<slug>/og.png (the letterboxed 1200x630 card).
+  eleventyConfig.addFilter("toOgCard", (heroPath) =>
+    typeof heroPath === "string" ? heroPath.replace(/\/hero\.(png|jpe?g|webp)$/i, "/og.png") : heroPath
+  );
+
   eleventyConfig.addFilter("absoluteUrl", (path, base) => {
     try {
       return new URL(path, base).href;
@@ -174,7 +219,8 @@ export default function (eleventyConfig) {
       if (!entry.isDirectory()) continue;
       const slugDir = join(imgDir, entry.name);
       for (const file of readdirSync(slugDir)) {
-        if (file.startsWith("hero.")) continue; // keep — referenced by og:image
+        // hero.* is the source of truth for the card; og.* is what og:image serves.
+      if (file.startsWith("hero.") || file.startsWith("og.")) continue;
         rmSync(join(slugDir, file));
         removed++;
       }

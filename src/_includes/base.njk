@@ -1,6 +1,8 @@
 {%- set pageTitle = title or site.title -%}
 {%- set pageDesc = deck or description or site.description -%}
-{%- set pageImage = (hero or site.ogImage) | absoluteUrl(site.url) -%}
+{#- Social cards use the letterboxed 1200x630 version, not the 2.83:1 hero,
+    which platforms would centre-crop. Generated at build time. -#}
+{%- set pageImage = (hero | toOgCard or site.ogImage) | absoluteUrl(site.url) -%}
 <!doctype html>
 <html lang="en-AU">
   <head>
