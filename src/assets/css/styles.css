@@ -81,7 +81,10 @@
 
   /* Space ----------------------------------------------------------------- */
   --container: 1336px;
-  --measure: 800px; /* prose cap ≈ 70 characters */
+  /* Prose cap. --step-body renders ~19–20px on a laptop (its 24px maximum needs
+     a 2377px viewport, which nothing has), so 720px lands at ≈68 characters per
+     line. 800px measured ≈77 — still over the 45–75 range. */
+  --measure: 720px;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
   --block: 1.5rem; /* the design's 24px rhythm */
   --section-y: clamp(3.5rem, 2rem + 6vw, 5rem); /* 80px at desktop */
@@ -605,8 +608,14 @@ button {
   gap: 1rem;
 }
 
+/* 16:9, not the mocks' 620/472 (1.31:1). The card has no height of its own —
+   `align-items: center` sizes the row to the taller column, and that was always
+   the image. At 620px wide the text column reaches ~358px against a 472px
+   panel, so every card carried ~114px of dead space split top and bottom. 16:9
+   drops the panel to 349px, takes the card from 536px to 413px (−23%), and
+   makes the text the constraint instead of the filler. */
 .card .panel {
-  aspect-ratio: 620 / 472;
+  aspect-ratio: 16 / 9;
   width: 100%;
 }
 
@@ -799,9 +808,26 @@ button {
   color: var(--ink);
 }
 
-/* Full container width, as designed. That is a long measure (~116 characters at
-   24px), so the leading is raised well above the mocks' ~1.2 to keep the return
-   sweep trackable — the standard trade for a wide column. */
+/* Prose runs at a readable measure, CENTRED in the container; figures keep the
+   full 1336px. The mocks ran body text the full container width, which measured
+   ~129 characters per line at 1440px — nearly twice the readable range.
+
+   An earlier fix (0cb8589) capped prose but left it left-aligned, which put
+   536px of dead space beside every paragraph against a full-width figure and
+   read as a bug. Centring the column is what that attempt was missing: narrow
+   prose with wide artwork is the standard editorial pattern, and the figures
+   then bleed symmetrically either side. */
+.case-body > * {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.case-body > .figure {
+  max-width: none;
+}
+
+/* Leading stays at 1.55. It was raised for the old ~129-character measure and is
+   still comfortable at ~68 — retune it in the mocks, not here. */
 .case-body p,
 .case-body ul,
 .case-body ol {
@@ -867,15 +893,9 @@ button {
     order: -1;
   }
 
-  .card__title,
-  .card__deck {
-    max-width: none;
-  }
-
-  /* The mobile card image is 313x238 — the same 620/472 crop, not a wide panel. */
-  .card .panel {
-    aspect-ratio: 620 / 472;
-  }
+  /* Stacked, the panel goes full-width, so it keeps the base 16:9. At 4:3 a card
+     at 859px measured ~1,056px tall — taller than the viewport rendering it. The
+     mocks' 620/472 crop returns below 640px, where the panel is narrow again. */
 }
 
 @media (max-width: 640px) {
@@ -889,6 +909,12 @@ button {
 
   .nav__brand {
     display: none;
+  }
+
+  /* The mobile card image is 313x238 — the same 620/472 crop, not a wide panel
+     (Figma 2227:8668). Narrow enough here that 4:3 costs nothing. */
+  .card .panel {
+    aspect-ratio: 620 / 472;
   }
 
   .nav__pill {

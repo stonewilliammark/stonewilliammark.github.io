@@ -12,8 +12,6 @@ heroAlt: "Cultural transformation in a data-driven organisation"
 order: 2
 ---
 
-*[Hero image: workshop wall covered in sticky notes]*
-
 ## Recognising the need for change
 
 Our organisation had built its reputation on technical expertise and analytical capabilities in the banking and data sector. While our data provided valuable insights, the company's strong expert identity had inadvertently created barriers to delivering accessible solutions. As the sole designer, I identified that our products were becoming increasingly complex, requiring extensive explanation for customers to derive value. The prevailing mindset was that as experts, we should tell customers what they need rather than asking them what would be valuable.

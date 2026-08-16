@@ -56,14 +56,28 @@ and the frontmatter validation.
 Figma — [Portfolio, Dev handover page](https://www.figma.com/design/PiGt0QiXiX6ncBKSiFVF4X/Portfolio?node-id=2227-7925).
 Colour, type and spacing tokens are transcribed at the top of `styles.css` with the node reference.
 
-Deliberate departures from the mocks, all agreed 2026-08-10:
+**The landing page is not from that frame.** The hero, nav and About card were re-derived from the
+revised frame [`2230:13514`](https://www.figma.com/design/PiGt0QiXiX6ncBKSiFVF4X/Portfolio?node-id=2230-13514)
+in commit `38fdd82`. Four `2230:*` nodes are cited in the code. Open `2227:7925` for everything except
+the home page.
 
-- **No contact form, and no footer.** The "Want to connect?" section and the footer were both
-  removed from the design (2026-08-11). Contact lives in the nav CTA, the hero, and the About card.
-- **Prose capped at ~70 characters.** The mocks ran body text the full 1336px container width
-  (~116 characters per line); the cap is set by `--measure`.
+Deliberate departures from the mocks:
+
+- **No contact form, and no footer** (2026-08-11). The "Want to connect?" section and the footer were
+  both removed from the design. Contact lives in the nav CTA, the hero, and the About card.
+- **Prose capped at ~68 characters and centred** (2026-08-16). The mocks ran body text the full 1336px
+  container, which measured ~129 characters per line at 1440px. `--measure` (720px) caps prose and
+  headings; figures keep the full container width. An earlier cap (`0cb8589`) was reverted because
+  left-aligned prose beside full-width figures left 536px of dead space — centring the column is the fix.
+- **Work cards at 16:9** (2026-08-16), not the mocks' 620/472. The card takes its height from the panel,
+  and at 4:3 the text column left ~114px of dead space. Below 640px the mocks' 4:3 crop returns.
 - **No "Skills" nav item.** The mocks had the link but no such page was ever designed.
-- **Topic names normalised**, so the filter doesn't show near-duplicate chips.
+- **Nav CTA is a plain dark button** (`333757e`). The LinkedIn-blue stroke in frame `2230:13710` was
+  judged an accident in the file and is not applied.
+- **Card title/deck fill their column.** The 462px/419px widths in `2227:7958` are hug-to-content
+  artefacts of hard-wrapped text, not max-widths.
+- **Topic names normalised** by hand in frontmatter, so the filter doesn't show near-duplicate chips.
+  This is a content convention — there is no normalisation step in `eleventy.config.js`.
 
 ## The CV download
 

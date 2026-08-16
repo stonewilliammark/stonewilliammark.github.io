@@ -89,8 +89,8 @@ A case study with **no** figures is fine — the template doesn't require any.
 
 ```markdown
 ---
-title: "Transforming customer insights with Ai-driven profiling"
-deck: "Creating an Ai-driven profiling solution in a complex banking environment"
+title: "Transforming customer insights with AI-driven profiling"
+deck: "Creating an AI-driven profiling solution in a complex banking environment"
 topics:
   - "Agentic design"
   - "Product design"
