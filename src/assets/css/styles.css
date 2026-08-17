@@ -85,6 +85,12 @@
      a 2377px viewport, which nothing has), so 720px lands at ≈68 characters per
      line. 800px measured ≈77 — still over the 45–75 range. */
   --measure: 720px;
+  /* Media cap — figures. Three deliberate tiers on a case study: 720 prose →
+     1040 figures → 1336 hero. The figure steps out 160px each side of the text
+     so it reads as related to it, rather than snapping back to the page edge
+     308px away, which is what made everything look "too wide" once the prose
+     was capped. */
+  --media: 1040px;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
   --block: 1.5rem; /* the design's 24px rhythm */
   --section-y: clamp(3.5rem, 2rem + 6vw, 5rem); /* 80px at desktop */
@@ -407,10 +413,17 @@ button {
   gap: 0.75rem;
 }
 
+/* Capped to the prose measure and centred, so a caption under a 1040px figure
+   lands exactly on the text column. Without margin-inline the flex parent's
+   default stretch pinned it to the figure's left edge, where it aligned with
+   nothing. No caption renders yet — every {% figure %} call passes two
+   arguments, so the shortcode's third (caption) is always empty. */
 .figure__caption {
+  width: 100%; /* see .case-head > * — auto margins suppress stretch */
   font-size: 0.9375rem;
   color: var(--muted);
   max-width: var(--measure);
+  margin-inline: auto;
 }
 
 /* Nav — a floating pill, not a bar (Figma 2227:7927 / 2227:7928) ----------- */
@@ -522,12 +535,13 @@ button {
 }
 
 /* Section header (Figma 2227:7952) ---------------------------------------- */
+/* No padding-inline: a 4px inset here misaligned every section heading from the
+   cards directly beneath it, for no reason the design gives. */
 .section__head {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 1.5rem;
-  padding-inline: 4px;
   margin-bottom: var(--section-gap);
 }
 
@@ -742,9 +756,15 @@ button {
   object-fit: cover;
 }
 
-/* Back row — 16px above and below a 51px pill, the designed 83px band. */
+/* Back row — 16px above and below a 51px pill, the designed 83px band. The pill
+   aligns to the media tier rather than the page edge, so it sits on the figure
+   edge instead of stranded 308px left of everything else. */
 .back-row {
   padding-block: 16px;
+}
+
+.back-row .container {
+  max-width: calc(var(--media) + var(--gutter) * 2);
 }
 
 /* Case study page --------------------------------------------------------- */
@@ -755,8 +775,29 @@ button {
   gap: var(--block);
 }
 
+/* The head sits on the same reading axis as the body. Before this, the title,
+   deck and topic pills ran the full 1336px container while the prose below them
+   was capped at 720 — a 308px step in the left edge, and a deck measuring ~98
+   characters directly above 69-character paragraphs. Auto inline margins on a
+   flex item absorb the free space, so this centres.
+
+   width: 100% is load-bearing: an auto inline margin on a flex item suppresses
+   align-items: stretch, so without it a short title would shrink to its content
+   and sit centred instead of starting at the same left edge as the prose. */
+.case-head > * {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+/* The hero is the one full-width element on the page. */
+.case-head > .panel {
+  max-width: none;
+}
+
 /* 56px between the title and the hero image (Figma 2227:8996 → 2227:8998):
-   32px here plus the 24px .case-head gap. */
+   32px here plus the 24px .case-head gap. A different longhand from the
+   margin-inline above, so both apply. */
 .case-head .h1 {
   margin-bottom: 2rem;
 }
@@ -822,8 +863,10 @@ button {
   margin-inline: auto;
 }
 
+/* Figures sit on the media tier — wider than the prose, narrower than the hero.
+   margin-inline: auto is inherited from the rule above, so this centres. */
 .case-body > .figure {
-  max-width: none;
+  max-width: var(--media);
 }
 
 /* Leading stays at 1.55. It was raised for the old ~129-character measure and is
