@@ -20,12 +20,18 @@
         {%- endfor %}
       </ul>
       <div class="card__cta">
+        {#- aria-label carries the case-study title on both CTAs. The card title
+            above is already a link to the same URL, so read out of context these
+            would otherwise announce as "Read case study" / "6 min read" with no
+            destination. -#}
         {% if cta == "read" %}
-        <a class="btn btn--outline" href="{{ item.url }}">Read case study</a>
+        <a class="btn btn--outline" href="{{ item.url }}"
+           aria-label="Read case study: {{ item.data.title }}">Read case study</a>
         {% else %}
         {#- Also an outlined button, same as "Read case study" — only the label
             differs (Figma 2227:8145). Uses the full arrow, not the chevron. -#}
-        <a class="btn btn--outline" href="{{ item.url }}">
+        <a class="btn btn--outline" href="{{ item.url }}"
+           aria-label="{{ item.data.title }}">
           {{ (item.rawInput or item.templateContent) | readingTime }} min read
           {{ arrow() }}
         </a>

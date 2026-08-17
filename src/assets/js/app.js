@@ -143,13 +143,95 @@
     sync();
   }
 
+  /* --- Adaptive nav over dark artwork ------------------------------------- */
+  /* The pill is sticky and every case-study figure is a 472px near-black panel,
+     so the pill spends most of a case study sitting on dark, where its ink
+     measured under 2:1 — illegible. Apple adapts by sampling backdrop luminance
+     in real time; the web has no API for that, so we measure how much of the
+     pill a .panel actually covers and let CSS flip the ink via .nav--on-dark.
+
+     Why not IntersectionObserver: it reports intersectionRatio relative to the
+     TARGET, and a 472px panel crossing a 64px pill sits on a ~0.13 plateau the
+     whole way through, so thresholds carry no usable signal. With threshold: 0
+     it fires only on enter and exit, which cannot tell 46% coverage from 100%.
+     That distinction is the whole problem: a case-study figure spans the full
+     container and covers the pill completely, but a work card's panel sits in
+     the right-hand column and covers only ~46% of a centred pill. Inverting the
+     pill when half of it is still over white would make that half unreadable.
+     So: real coverage maths, on a rAF-throttled scroll read. */
+  function initAdaptiveNav() {
+    var nav = document.querySelector(".nav");
+    var pill = document.querySelector(".nav__pill");
+    if (!nav || !pill) return;
+
+    var panels = Array.prototype.slice.call(document.querySelectorAll(".panel"));
+    if (!panels.length) return;
+
+    // Asymmetric on purpose. Flip to dark only when a panel genuinely owns the
+    // pill, and flip back only once it has largely left — the gaps between
+    // figures are 24-56px against a 64px pill, so a single threshold would
+    // stutter every time one scrolled past.
+    var ON = 0.55;
+    var OFF = 0.25;
+
+    var onDark = false;
+    var queued = false;
+
+    function coverage() {
+      var p = pill.getBoundingClientRect();
+      var area = p.width * p.height;
+      if (!area) return 0;
+
+      var best = 0;
+      for (var i = 0; i < panels.length; i++) {
+        var r = panels[i].getBoundingClientRect();
+        // Cheap reject: nothing near the pill vertically.
+        if (r.bottom <= p.top || r.top >= p.bottom) continue;
+        var w = Math.min(p.right, r.right) - Math.max(p.left, r.left);
+        if (w <= 0) continue;
+        var h = Math.min(p.bottom, r.bottom) - Math.max(p.top, r.top);
+        if (h <= 0) continue;
+        var ratio = (w * h) / area;
+        if (ratio > best) best = ratio;
+      }
+      return best;
+    }
+
+    function evaluate() {
+      queued = false;
+      var c = coverage();
+      if (!onDark && c >= ON) {
+        onDark = true;
+        nav.classList.add("nav--on-dark");
+      } else if (onDark && c <= OFF) {
+        onDark = false;
+        nav.classList.remove("nav--on-dark");
+      }
+    }
+
+    function request() {
+      if (queued) return;
+      queued = true;
+      window.requestAnimationFrame(evaluate);
+    }
+
+    // Reads only, batched into one frame, so this never interleaves layout
+    // reads with writes. Passive: it never calls preventDefault.
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+
+    evaluate();
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       initFilter();
       initCarousel();
+      initAdaptiveNav();
     });
   } else {
     initFilter();
     initCarousel();
+    initAdaptiveNav();
   }
 })();

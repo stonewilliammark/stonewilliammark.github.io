@@ -12,8 +12,12 @@
     <nav class="nav__pill" aria-label="Primary">
       <div class="nav__group">
         <a class="nav__brand" href="/">William Stone</a>
+        {#- "page" on /work/ itself, "true" on a case study — which is inside the
+            Work section, so the nav should show where you are rather than
+            nothing at all, which is what it did before. -#}
         <a class="nav__link" href="/work/"
-           {% if page.url == "/work/" %}aria-current="page"{% endif %}>Work</a>
+           {% if page.url == "/work/" %}aria-current="page"
+           {% elif page.url.startsWith("/work/") %}aria-current="true"{% endif %}>Work</a>
         <a class="nav__link" href="/#about">About</a>
       </div>
       {#- Dark pill with the LinkedIn glyph. The blue stroke in the Figma frame was

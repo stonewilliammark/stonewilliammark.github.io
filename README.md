@@ -65,15 +65,31 @@ Deliberate departures from the mocks:
 
 - **No contact form, and no footer** (2026-08-11). The "Want to connect?" section and the footer were
   both removed from the design. Contact lives in the nav CTA, the hero, and the About card.
-- **Prose capped at ~68 characters and centred** (2026-08-16). The mocks ran body text the full 1336px
-  container, which measured ~129 characters per line at 1440px. `--measure` (720px) caps prose and
-  headings; figures keep the full container width. An earlier cap (`0cb8589`) was reverted because
-  left-aligned prose beside full-width figures left 536px of dead space — centring the column is the fix.
+- **Three width tiers on a case study** (2026-08-17). The mocks ran everything at 1336px.
+  `--measure` (720px) carries the title, deck, topic pills, headings, prose and captions;
+  `--media` (1040px) carries figures; only the hero keeps the full `--container` 1336px. At 1440px
+  that is one reading edge at x=360, figures at x=200 and the hero at x=52. Capping prose alone
+  (2026-08-16) left a 308px step in the left edge and a deck measuring ~98 characters, which is what
+  this replaced. An even earlier cap (`0cb8589`) was reverted because left-aligned prose beside
+  full-width figures left 536px of dead space — centring the column is the fix.
 - **Work cards at 16:9** (2026-08-16), not the mocks' 620/472. The card takes its height from the panel,
   and at 4:3 the text column left ~114px of dead space. Below 640px the mocks' 4:3 crop returns.
 - **No "Skills" nav item.** The mocks had the link but no such page was ever designed.
+- **The nav pill hugs its contents and centres** (2026-08-17), rather than spanning the container as
+  the mocks have it. A 1336px pill left ~600px of empty glass and matched every dark figure panel
+  exactly. The wordmark alignment the full width was protecting had already stopped meaning anything
+  once the reading column moved off that edge.
+- **The nav adapts over dark artwork** (2026-08-17), which the mocks do not describe. The pill is
+  sticky and case-study figures are 472px of near-black, so `--material` resolved to ~#3a3a3a and
+  `--ink` measured **1.48:1** — a live WCAG failure across most of the scroll, not a polish item.
+  `app.js` measures how much of the pill a `.panel` covers and toggles `.nav--on-dark`, flipping ink
+  and tint to ~10:1 over the existing blur. Coverage thresholds are asymmetric (0.55 on / 0.25 off)
+  so it holds through the 24–56px gaps between figures, and a work card's panel — which covers only
+  ~46% of a centred pill — deliberately never triggers it.
 - **Nav CTA is a plain dark button** (`333757e`). The LinkedIn-blue stroke in frame `2230:13710` was
-  judged an accident in the file and is not applied.
+  judged an accident in the file and is not applied. It inverts to white under `.nav--on-dark`.
+- **Case-study body text is ink, not the mocks' grey** (2026-08-17). Grey measured 5.0:1 across the
+  entire body of every case study; muted is now reserved for the deck, meta chips and captions.
 - **Card title/deck fill their column.** The 462px/419px widths in `2227:7958` are hug-to-content
   artefacts of hard-wrapped text, not max-widths.
 - **Topic names normalised** by hand in frontmatter, so the filter doesn't show near-duplicate chips.

@@ -104,6 +104,13 @@
   --nav-offset: 24px;
   --nav-h: 64px;
   --nav-inset: 8px; /* even gap around the CTA; also sets its concentric radius */
+
+  /* Motion. 0.18s ease was hardcoded in six places before this; these are the
+     same values, named. Deliberately not a retune — changing the curve is its
+     own decision, not something to smuggle into a tokenising pass.
+     Every duration here is neutralised by the prefers-reduced-motion block. */
+  --dur: 0.18s;
+  --ease: ease;
 }
 
 /* Reset -------------------------------------------------------------------- */
@@ -161,10 +168,13 @@ button {
   cursor: pointer;
 }
 
+/* No border-radius here. It mutated the element's own geometry rather than the
+   ring, and every later class that sets a radius overrode it anyway, so it only
+   ever applied to two elements. Modern outlines already follow the element's
+   existing corner radius. */
 :focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
 /* Layout ------------------------------------------------------------------- */
@@ -274,7 +284,7 @@ button {
   text-decoration: none;
   border-radius: var(--radius-pill);
   border: 1px solid transparent;
-  transition: transform 0.18s ease, background-color 0.18s ease;
+  transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease);
 }
 
 /* Feedback on press, not release — apple-design §1. */
@@ -363,7 +373,7 @@ button {
    signalled by a tick, bold weight and ink text — not by inverting to a dark fill. */
 .chip--button {
   gap: 0.5rem; /* Figma 8px, between the tick and the label */
-  transition: background-color 0.18s ease, color 0.18s ease;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 .chip--button:hover {
@@ -435,20 +445,27 @@ button {
   pointer-events: none; /* the wrapper is empty space; only the pill is clickable */
 }
 
-/* The pill sits inside .container so its edges line up with the cards and
-   section headers at every viewport width, not just at the design width. */
-/* The CTA's gap must be equal on all four sides, or its curve reads as
+/* The pill hugs its contents and centres, rather than spanning the container.
+   It used to be width:100% so the wordmark lined up with card text — but the
+   reading column no longer starts at that edge, so the alignment it was
+   protecting had already stopped meaning anything, and a 1336px pill left ~600px
+   of empty glass in the middle and matched the width of every dark figure panel
+   exactly. justify-content: space-between goes inert with no free space, so the
+   1rem gap sets the spacing.
+
+   The CTA's gap must be equal on all four sides, or its curve reads as
    off-centre against the pill's. With a 64px fully-rounded pill (32px effective
    radius) and an 8px inset, the CTA needs a 24px radius to stay concentric —
-   which is exactly what a fully-rounded 48px pill gives. Hence --nav-inset.
-   The left padding stays 16px so the wordmark keeps lining up with card text. */
+   which is exactly what a fully-rounded 48px pill gives. Hence --nav-inset. */
 .nav__pill {
   pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  width: 100%;
+  width: fit-content;
+  max-width: 100%; /* never overflow the container at narrow widths */
+  margin-inline: auto;
   height: var(--nav-h);
   padding: var(--nav-inset);
   padding-left: 16px;
@@ -458,6 +475,7 @@ button {
   -webkit-backdrop-filter: blur(var(--material-blur)) saturate(180%);
   border-radius: var(--radius-pill);
   box-shadow: var(--material-edge);
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 /* Brand and links sit in one row with no gap — each item's own 16px of
@@ -494,7 +512,7 @@ button {
   text-decoration: none;
   border-radius: var(--radius-pill);
   white-space: nowrap;
-  transition: color 0.18s ease, background-color 0.18s ease;
+  transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
 }
 
 /* Height derived from the pill so the concentric relationship holds if either
@@ -504,10 +522,61 @@ button {
   padding-block: 0;
 }
 
+/* [aria-current] unqualified, so a case-study page can mark Work as the current
+   SECTION with aria-current="true" while /work/ itself uses "page". */
 .nav__link:hover,
-.nav__link[aria-current="page"] {
+.nav__link[aria-current] {
   color: var(--ink);
   background: var(--material-hover);
+}
+
+/* Nav over dark artwork ----------------------------------------------------
+   The pill is sticky and every figure panel is 472px of near-black, so on a case
+   study the pill spends most of the scroll sitting on dark. --material over
+   #2d2d2d resolves to about #3a3a3a, against which --ink measured under 2:1 and
+   --muted little better: the nav was effectively invisible, which is a WCAG
+   failure rather than a polish item.
+
+   Apple samples backdrop luminance in real time; the web has no API for that.
+   So app.js watches for a .panel behind the pill's own rectangle and toggles
+   .nav--on-dark, and the ink and tint flip over the blur that is already there.
+   White on the resolved dark glass measures roughly 9:1.
+
+   `color` is set on the pill itself so the prefers-contrast border below — which
+   is `1px solid currentColor` — resolves light instead of near-black-on-dark. */
+.nav--on-dark .nav__pill {
+  color: var(--white);
+  background: rgb(255 255 255 / 0.1);
+  /* --material-edge is three white highlights tuned for a light backdrop; over
+     dark they read as a bright rim, so just the one soft top edge. */
+  box-shadow: inset 0 1px 1px 0 rgb(255 255 255 / 0.18);
+}
+
+.nav--on-dark .nav__brand {
+  color: var(--white);
+}
+
+.nav--on-dark .nav__link {
+  color: rgb(255 255 255 / 0.72);
+}
+
+.nav--on-dark .nav__link:hover,
+.nav--on-dark .nav__link[aria-current] {
+  color: var(--white);
+  background: rgb(255 255 255 / 0.16);
+}
+
+/* The CTA is a dark ink pill — over dark glass it disappears into the artwork,
+   so it inverts with the material. The LinkedIn glyph is fill="currentColor"
+   and follows on its own. */
+.nav--on-dark .nav__pill .btn--primary {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--white);
+}
+
+.nav--on-dark .nav__pill .btn--primary:hover {
+  background: #ebebeb;
 }
 
 /* Hero (Figma 2227:7940) --------------------------------------------------- */
@@ -559,7 +628,7 @@ button {
   border-radius: var(--radius-pill);
   text-decoration: none;
   white-space: nowrap;
-  transition: background-color 0.18s ease;
+  transition: background-color var(--dur) var(--ease);
 }
 
 .pill-link:hover {
@@ -576,6 +645,7 @@ button {
    card in the same carousel runs both at the full 620px column. Do not turn them
    back into max-widths; the text should fill its column. */
 .card {
+  position: relative; /* anchors the stretched link below */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--card-pad);
@@ -583,6 +653,49 @@ button {
   padding: var(--card-pad);
   background: var(--material);
   border-radius: var(--radius-card);
+  transition: background-color var(--dur) var(--ease);
+}
+
+/* The card is the biggest interactive surface on the site — 1336 x ~413px — and
+   had no hover and no focus state at all, while its title link also had its
+   underline removed. Guarded on (hover: hover) so touch devices don't get a
+   hover stuck on after a tap. */
+@media (hover: hover) {
+  .card:hover {
+    background: var(--material-hover);
+  }
+
+  .card:hover .card__title a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .card:hover .panel {
+    transform: scale(1.015);
+  }
+}
+
+/* Keyboard parity: the ring is drawn on the whole card rather than just the few
+   characters of the title, which is what :focus-visible alone would give. */
+.card:focus-within {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.card .panel {
+  transition: transform var(--dur) var(--ease);
+}
+
+/* Whole card clickable. Before this only the title text and the CTA were links,
+   so most of a card that plainly reads as clickable did nothing.
+   Scoped to .card deliberately: the About card reuses .card__title but its root
+   is .about, which is not positioned, so an unscoped rule would anchor the
+   overlay to whatever ancestor happened to be positioned. */
+.card .card__title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
 }
 
 .card__body {
@@ -614,7 +727,10 @@ button {
 /* The CTA sits in its own 24px-topped block in the design. Both card CTAs are
    outlined buttons — "Read case study" on the carousel, "N min read" + arrow on
    All-work (Figma 2227:7974 / 2227:8145) — with a 16px gap, not the .btn 12px. */
+/* Above the stretched link, or the reading-time button would be unclickable. */
 .card__cta {
+  position: relative;
+  z-index: 1;
   padding-top: var(--block);
 }
 
@@ -690,12 +806,21 @@ button {
 }
 
 .carousel__dot {
+  position: relative;
   width: 8px;
   height: 8px;
   padding: 0;
   border-radius: var(--radius-pill);
   background: rgb(29 29 31 / 0.25);
-  transition: background-color 0.18s ease, width 0.18s ease;
+  transition: background-color var(--dur) var(--ease), width var(--dur) var(--ease);
+}
+
+/* An 8x8px button only scraped WCAG 2.5.8 via the spacing exception. This gives
+   a real 24x24 hit area with no visual change. */
+.carousel__dot::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
 }
 
 .carousel__dot[aria-current="true"] {
@@ -718,7 +843,7 @@ button {
   color: var(--muted);
   background: var(--surface);
   border-radius: var(--radius-pill);
-  transition: background-color 0.18s ease, color 0.18s ease;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 .carousel__arrow .icon--chevron {
@@ -871,10 +996,15 @@ button {
 
 /* Leading stays at 1.55. It was raised for the old ~129-character measure and is
    still comfortable at ~68 — retune it in the mocks, not here. */
+/* Ink, not muted. The entire body of every case study was grey at 5.0:1 — it
+   passed AA but made long-form reading harder than it needed to be, and left
+   nothing for the genuinely secondary text to contrast against. Muted is now
+   reserved for the deck, the meta chips and figure captions, which gives real
+   hierarchy instead of a uniform wash. */
 .case-body p,
 .case-body ul,
 .case-body ol {
-  color: var(--muted);
+  color: var(--ink);
   line-height: 1.55;
   text-wrap: pretty;
 }
@@ -1007,6 +1137,14 @@ button {
 @media (prefers-reduced-transparency: reduce) {
   .nav__pill {
     background: #f2f2f2;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  /* Opaque dark, so the light ink from .nav--on-dark still has something to sit
+     on once the glass is gone. Without this the pill would go opaque LIGHT while
+     its text went white. */
+  .nav--on-dark .nav__pill {
+    background: var(--panel-to);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
