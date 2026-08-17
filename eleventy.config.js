@@ -5,17 +5,90 @@ import { join } from "node:path";
 import sharp from "sharp";
 
 /**
- * Social cards are 1200x630 (1.91:1) but the hero panels are 2.83:1, so handing
- * a hero straight to LinkedIn/Slack centre-crops it and throws away the top and
- * bottom third — exactly where the artwork sits.
+ * Social cards, 1200x630 (1.91:1) from a 2.83:1 hero panel.
  *
- * This letterboxes each hero onto the panel's own edge colour (#2f2f2f) instead.
- * The panels have rounded corners with transparency, so flattening onto the same
- * colour makes the padding invisible — it just reads as a taller panel.
+ * Two earlier attempts failed on LinkedIn, and both are worth remembering:
  *
- * Runs before every build, so a new case study gets a correct card for free.
+ * 1. Letterboxing the whole panel onto a flat bar. The Figma export's rounded
+ *    corners are opaque WHITE — the page behind the rounded rect, not alpha — so
+ *    flatten() never covered them and they showed as notches at all four corners.
+ * 2. Cover-cropping the full panel. Corners gone and no seam, but the artwork only
+ *    occupies 31-45% of the panel width, so at LinkedIn's thumbnail size it read as
+ *    a tiny picture floating in a dark field.
+ *
+ * So the crop is content-aware: find the artwork's bounding box (ignoring a 60px
+ * inset that clears the white corners), add breathing room, expand to the card
+ * ratio around its centre, and clamp inside the panel. Each case study zooms by
+ * whatever its own composition needs — measured 1.7x to 2.0x on the current five.
  */
-const OG_BG = { r: 47, g: 47, b: 47, alpha: 1 };
+const OG_BG = { r: 45, g: 45, b: 45 };
+const OG_W = 1200;
+const OG_H = 630;
+const CORNER_INSET = 60; // clears the 48px white corner radius
+const OG_PAD = 0.1; // breathing room around the artwork
+
+/** Bounding box of pixels that are clearly not the dark panel background. */
+async function artworkBox(file) {
+  const img = sharp(file);
+  const { width: W, height: H } = await img.metadata();
+  const { data, info } = await img
+    .extract({
+      left: CORNER_INSET,
+      top: CORNER_INSET,
+      width: W - CORNER_INSET * 2,
+      height: H - CORNER_INSET * 2,
+    })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const { width: w, height: h, channels } = info;
+  let minX = w, minY = h, maxX = 0, maxY = 0, found = false;
+  for (let y = 0; y < h; y += 4) {
+    for (let x = 0; x < w; x += 4) {
+      const i = (y * w + x) * channels;
+      const r = data[i], g = data[i + 1], b = data[i + 2];
+      const light = Math.max(r, g, b) > 90;
+      const saturated = Math.max(r, g, b) - Math.min(r, g, b) > 25;
+      if (light || saturated) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+        found = true;
+      }
+    }
+  }
+  if (!found) return null;
+  return {
+    minX: minX + CORNER_INSET, maxX: maxX + CORNER_INSET,
+    minY: minY + CORNER_INSET, maxY: maxY + CORNER_INSET,
+    W, H,
+  };
+}
+
+/** Expand a box to the card ratio around its centre, clamped inside the panel. */
+function cardCrop(box) {
+  const ratio = OG_W / OG_H;
+  let { minX, maxX, minY, maxY, W, H } = box;
+  let bw = maxX - minX, bh = maxY - minY;
+  minX -= bw * OG_PAD; maxX += bw * OG_PAD;
+  minY -= bh * OG_PAD; maxY += bh * OG_PAD;
+  bw = maxX - minX; bh = maxY - minY;
+  const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+  if (bw / bh < ratio) bw = bh * ratio;
+  else bh = bw / ratio;
+
+  const maxW = W - CORNER_INSET * 2, maxH = H - CORNER_INSET * 2;
+  if (bw > maxW) { bw = maxW; bh = bw / ratio; }
+  if (bh > maxH) { bh = maxH; bw = bh * ratio; }
+
+  return {
+    left: Math.round(Math.min(Math.max(cx - bw / 2, CORNER_INSET), W - CORNER_INSET - bw)),
+    top: Math.round(Math.min(Math.max(cy - bh / 2, CORNER_INSET), H - CORNER_INSET - bh)),
+    width: Math.round(bw),
+    height: Math.round(bh),
+  };
+}
 
 async function buildOgCards(imgDir) {
   if (!existsSync(imgDir)) return 0;
@@ -25,10 +98,13 @@ async function buildOgCards(imgDir) {
     const hero = join(imgDir, entry.name, "hero.png");
     const og = join(imgDir, entry.name, "og.png");
     if (!existsSync(hero)) continue;
-    // Only regenerate when the hero is newer, so builds stay fast.
     if (existsSync(og) && statSync(og).mtimeMs >= statSync(hero).mtimeMs) continue;
-    await sharp(hero)
-      .resize(1200, 630, { fit: "contain", background: OG_BG })
+
+    const box = await artworkBox(hero);
+    const pipeline = sharp(hero);
+    if (box) pipeline.extract(cardCrop(box));
+    await pipeline
+      .resize(OG_W, OG_H, { fit: "cover", position: "centre" })
       .flatten({ background: OG_BG })
       .png({ compressionLevel: 9 })
       .toFile(og);
