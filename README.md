@@ -76,6 +76,20 @@ Deliberate departures from the mocks:
   **Do not split `--container` into a separate token.** The carousel track reads it directly for
   `padding-inline` / `scroll-padding-inline`, and slide width is only algebraically identical to
   container content because both derive from it. `app.js` trusts the computed padding.
+- **One left edge on a case study** (2026-08-18, owner decision against a three-way Figma comparison).
+  Nav pill, Back pill, title, hero, deck, topic pills, headings, paragraphs, figures and captions all
+  start on the content edge. Prose still caps at `--measure` for its 68-character measure, so it ends
+  220px short on the right instead of being centred.
+  **This restores what `0cb8589` tried on 2026-08-11 and had reverted within the hour.** That revert was
+  correct at the time: a 1336px container with an 800px measure left 536px of dead space beside every
+  paragraph, which read as a bug. At 1040/820 the trailing space is 220px — ordinary editorial rag. The
+  centred alternative was shipped for one day and produced two competing left margins (236 and 346 at a
+  1512px viewport), with the title, deck and pills inset while the nav, Back pill and hero sat on the
+  edge. **Do not re-centre `.case-head > *` or `.case-body > *` without re-reading this.**
+- **The case-study title takes the full content width and uses `text-wrap: pretty`**, not the reading
+  measure and not `balance`. At 820px it wrapped to three lines and `balance` chose to split "AI-driven"
+  at its hyphen. The home hero `h1` and the section titles keep `balance` — they are short centred
+  strings where it is right.
 - **Body type reaches its designed 24px** (2026-08-18). `--step-body` was the only type token that
   never got there — its clamp maxed at 24px but needed a 2377px viewport, so it rendered 20.72px at
   1440 while every heading was saturated from ~1000px. Heading-to-body contrast fell as the viewport
