@@ -73,24 +73,41 @@
   --step-section: clamp(2.5rem, 1.9rem + 2.6vw, 3.5rem); /* 40 → 56 section headings */
   --step-h2: clamp(1.5rem, 1.15rem + 1.4vw, 2rem); /* 24 → 32 case-study headings */
   --step-deck: clamp(1.125rem, 0.9rem + 0.9vw, 1.75rem); /* 18 → 28 hero deck */
-  --step-body: clamp(1.0625rem, 0.98rem + 0.35vw, 1.5rem); /* 17 → 24 */
-  --step-card-title: clamp(1.5rem, 1.1rem + 1.6vw, 2rem); /* 24 → 32 */
-  --step-card-deck: clamp(1.0625rem, 0.95rem + 0.5vw, 1.5rem); /* 17 → 24 */
+  /* 17 → 24, reaching 24px at ~1440px. The old ramp (0.98rem + 0.35vw) also
+     topped out at 24 but needed a 2377px viewport, so it rendered 20.72px on a
+     laptop while every heading was already saturated — --step-h2 maxes out from
+     971px, --step-section from 985px, --step-h1 from 1067px. Heading-to-body
+     contrast therefore FELL as the viewport widened (1.66x at 1024, 1.54x at
+     1440, 1.43x at 1920), which is backwards, and it is why the headings looked
+     squashed into the measure: the body was undersized, not the column. */
+  --step-body: clamp(1.0625rem, 0.894rem + 0.673vw, 1.5rem);
+  /* 24 → 28, down from 32. Card columns are 472px at the 1040 container, where a
+     32px title wrapped to three lines and the 24px deck fell to 42 characters,
+     under the 45 floor. */
+  --step-card-title: clamp(1.5rem, 1.1rem + 1.6vw, 1.75rem);
+  --step-card-deck: clamp(1.0625rem, 0.95rem + 0.5vw, 1.25rem); /* 17 → 20 */
   --step-ui: 1rem; /* every button and nav link: 16px */
   --step-chip: 0.875rem;
 
   /* Space ----------------------------------------------------------------- */
-  --container: 1336px;
-  /* Prose cap. --step-body renders ~19–20px on a laptop (its 24px maximum needs
-     a 2377px viewport, which nothing has), so 720px lands at ≈68 characters per
-     line. 800px measured ≈77 — still over the 45–75 range. */
-  --measure: 720px;
-  /* Media cap — figures. Three deliberate tiers on a case study: 720 prose →
-     1040 figures → 1336 hero. The figure steps out 160px each side of the text
-     so it reads as related to it, rather than snapping back to the page edge
-     308px away, which is what made everything look "too wide" once the prose
-     was capped. */
-  --media: 1040px;
+  /* ONE content width. Everything structural sits on it: the nav pill, the hero,
+     every figure, every card, the section heads, the back row, the next-case
+     block and the all-work list. It was 1336 with figures at 1040 and prose at
+     720 — three tiers, which read as three unrelated systems rather than one.
+
+     Changing THIS token rather than adding a new one is deliberate: the carousel
+     track reads var(--container) directly for its padding-inline and
+     scroll-padding-inline, and slide width is only algebraically identical to
+     container content because both derive from here. Split them and slides
+     misalign by (old-new)/2 while app.js snaps to the wrong edge, because it
+     trusts the computed padding. */
+  --container: 1040px;
+  /* Prose cap. With --step-body reaching its designed 24px at ~1440, 820px lands
+     at ≈68 characters. Prose sits 110px inside the content width each side: a
+     reading column within the structure, which is the standard editorial pattern.
+     A single shared width is not achievable — 1040px at 68 characters needs ~28px
+     body, and --step-h2 is capped at 32px, so the heading hierarchy collapses. */
+  --measure: 820px;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
   --block: 1.5rem; /* the design's 24px rhythm */
   --section-y: clamp(3.5rem, 2rem + 6vw, 5rem); /* 80px at desktop */
@@ -398,6 +415,10 @@ button {
    Panels export from Figma complete — gradient, composition and corner radius
    are already in the image. The gradient below is only the backdrop shown
    while the image loads, so there is no flash of white. */
+/* Do not "tidy" 1336/472 to match the container. It is 2.8305, the exact ratio of
+   the 2672x944 hero and figure exports, so the image renders with zero crop at
+   whatever width the container happens to be. The literal no longer describes the
+   layout; it describes the source files. */
 .panel {
   overflow: hidden;
   aspect-ratio: 1336 / 472;
@@ -445,13 +466,12 @@ button {
   pointer-events: none; /* the wrapper is empty space; only the pill is clickable */
 }
 
-/* The pill hugs its contents and centres, rather than spanning the container.
-   It used to be width:100% so the wordmark lined up with card text — but the
-   reading column no longer starts at that edge, so the alignment it was
-   protecting had already stopped meaning anything, and a 1336px pill left ~600px
-   of empty glass in the middle and matched the width of every dark figure panel
-   exactly. justify-content: space-between goes inert with no free space, so the
-   1rem gap sets the spacing.
+/* The pill spans the container, so its edges line up with the hero, every figure
+   and every card. It was briefly hugging its contents and centring: that fixed a
+   1336px pill leaving ~600px of empty glass, but at ~450px wide it read as too
+   small, and the real problem was the container width rather than the pill. With
+   one 1040px content width the original reasoning holds again — the wordmark
+   lines up with the content edge because there is only one content edge.
 
    The CTA's gap must be equal on all four sides, or its curve reads as
    off-centre against the pill's. With a 64px fully-rounded pill (32px effective
@@ -463,9 +483,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  width: fit-content;
-  max-width: 100%; /* never overflow the container at narrow widths */
-  margin-inline: auto;
+  width: 100%;
   height: var(--nav-h);
   padding: var(--nav-inset);
   padding-left: 16px;
@@ -888,10 +906,6 @@ button {
   padding-block: 16px;
 }
 
-.back-row .container {
-  max-width: calc(var(--media) + var(--gutter) * 2);
-}
-
 /* Case study page --------------------------------------------------------- */
 
 .case-head {
@@ -968,8 +982,10 @@ button {
   text-wrap: balance;
 }
 
+/* 28px, not 20px. Once --step-body reaches its designed 24px, a 20px h3 is
+   SMALLER than the paragraphs it introduces. */
 .case-body h3 {
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: var(--ink);
 }
@@ -991,7 +1007,7 @@ button {
 /* Figures sit on the media tier — wider than the prose, narrower than the hero.
    margin-inline: auto is inherited from the rule above, so this centres. */
 .case-body > .figure {
-  max-width: var(--media);
+  max-width: none;
 }
 
 /* Leading stays at 1.55. It was raised for the old ~129-character measure and is
