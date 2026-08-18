@@ -34,7 +34,7 @@ The blueprinting work revealed insights that wouldn't have been visible through 
 
 The blueprint showed these as interconnected parts of one larger system rather than isolated issues.
 
-{% figure "/img/service-blueprinting/figure-3.png", "Systemic issues surfaced by the blueprint — workarounds that had become normal practice" %}
+{% figure "/img/service-blueprinting/figure-3.png", "Systemic issues surfaced by the blueprint: workarounds that had become normal practice" %}
 
 ## From mapping to action
 
@@ -47,9 +47,9 @@ Following the blueprinting work, I helped leadership identify where to focus our
 
 Throughout, I encouraged the organisation to look beyond quick fixes toward structural change.
 
-{% figure "/img/service-blueprinting/figure-4.png", "Future-state vision — the client portal" %}
-{% figure "/img/service-blueprinting/figure-5.png", "Future-state vision — invoicing" %}
-{% figure "/img/service-blueprinting/figure-6.png", "Future-state vision — CRM" %}
+{% figure "/img/service-blueprinting/figure-4.png", "Future-state vision: the client portal" %}
+{% figure "/img/service-blueprinting/figure-5.png", "Future-state vision: invoicing" %}
+{% figure "/img/service-blueprinting/figure-6.png", "Future-state vision: CRM" %}
 
 ## Building shared understanding and driving change
 

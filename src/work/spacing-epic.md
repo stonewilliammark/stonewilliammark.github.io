@@ -35,7 +35,7 @@ I approached the Spacing Epic by assembling a dedicated team of four designers, 
 
 ## Applying the EPIC framework
 
-We treated spacing as a proper UX project and not a simple design system task, following our structured EPIC framework:
+We treated spacing as a proper UX project rather than a simple design system task, following our structured EPIC framework:
 
 - **Establish:** We conducted interviews with both designers and engineers to capture a wide range of perspectives. We reviewed existing products to identify inconsistencies and document specific pain points.
 - **Prioritise:** Using Figma for virtual sticky notes, we organised feedback into themes and identified root causes. We created a prioritised list of must-solve problems and quick wins.
@@ -75,7 +75,7 @@ This two-dimensional approach allowed us to maintain consistent relationship sig
 
 {% figure "/img/spacing-epic/figure-2.png", "The half-base-unit spacing scale" %}
 {% figure "/img/spacing-epic/figure-3.png", "Semantic spacing tokens mapped to interface relationships" %}
-{% figure "/img/spacing-epic/figure-4.png", "Spatial relationships — how spacing communicates grouping" %}
+{% figure "/img/spacing-epic/figure-4.png", "Spatial relationships: how spacing communicates grouping" %}
 
 ## Implementation and technical alignment
 
@@ -89,11 +89,11 @@ An additional benefit emerged during implementation: our semantic tokens made th
 
 We integrated spacing principles into UX Academy, our structured learning program. We developed accessible, visual explanations of key concepts, and ran hands-on workshops where designers could apply the new model.
 
-Our documentation covered what to do and why it mattered, so designers could understand the principles behind the guidelines and not simply follow rules.
+Our documentation covered what to do and why it mattered, so designers could understand the principles behind the guidelines rather than simply following rules.
 
-{% figure "/img/spacing-epic/figure-5.png", "Why spacing matters — the case made to the wider team" %}
+{% figure "/img/spacing-epic/figure-5.png", "Why spacing matters: the case made to the wider team" %}
 {% figure "/img/spacing-epic/figure-6.png", "Establishing type and spacing together" %}
-{% figure "/img/spacing-epic/figure-7.png", "Levels of density — compact, comfortable and spacious" %}
+{% figure "/img/spacing-epic/figure-7.png", "Levels of density: compact, comfortable and spacious" %}
 {% figure "/img/spacing-epic/figure-8.png", "Applying the model across real product screens" %}
 {% figure "/img/spacing-epic/figure-9.png", "The documented spacing guidance the team adopted" %}
 
@@ -110,7 +110,7 @@ In design critiques, conversations shifted from debating specific pixel values t
 ## Key learnings
 
 - **Principles over specifications:** By focusing on the intent behind spacing decisions rather than specific measurements, we created a system that was both more flexible and easier to understand
-- **Design systems as UX projects:** The techniques we use to solve user problems—research, synthesis, ideation, testing—are equally valuable when solving design system problems
+- **Design systems as UX projects:** The techniques we use to solve user problems (research, synthesis, ideation, testing) are equally valuable when solving design system problems
 - **Building ownership yields better results:** Taking time to build team investment and understanding produces more durable solutions than simply assigning tasks
 - **Semantic models enable scaling:** A meaning-based system, not a value-based one, allowed for both consistency and flexibility
 

@@ -47,7 +47,7 @@ To replace scattered, one-off contributions, I introduced a structured approach 
 - **I**nvestigate the root causes collaboratively
 - **C**o-create structured solutions
 
-We broke down the system into discrete epics—such as Spacing, Colour, Radius, and Typography—and prioritised them based on effort, foundational impact, and the opportunity to test new ways of working.
+We broke down the system into discrete epics such as Spacing, Colour, Radius, and Typography. We prioritised these epics based on effort, foundational impact, and the opportunity to test new ways of working.
 
 We piloted the EPIC framework with the Spacing Epic, applying design research, team workshops, and co-creation methods to understand the problem space. From there, we developed new patterns and naming conventions that addressed underlying issues, not just surface-level symptoms. This approach helped us move from reactive patching to system-wide improvement.
 
@@ -57,7 +57,7 @@ We piloted the EPIC framework with the Spacing Epic, applying design research, t
 
 ## Cultural shift: From enforcing rules to enabling principles
 
-A major cultural barrier was the rigid rulebook mentality. Designers were expected to follow established patterns for the sake of consistency, even when they contradicted usability principles. I reframed the system as an enabler, not an enforcer, with the mantra: "Consistency is important—but being consistently wrong is not great." This mindset shift gave designers permission to question defaults. In critiques, designers began presenting reasoned arguments for breaking certain rules. Those breakpoints became inputs into a prioritised backlog for system evolution.
+A major cultural barrier was the rigid rulebook mentality. Designers were expected to follow established patterns for the sake of consistency, even when they contradicted usability principles. I reframed the system as an enabler, not an enforcer, with the mantra: "Consistency is important, but being consistently wrong is not great." This mindset shift gave designers permission to question defaults. In critiques, designers began presenting reasoned arguments for breaking certain rules. Those breakpoints became inputs into a prioritised backlog for system evolution.
 
 A key technical innovation supporting this cultural shift was the introduction of semantic tokens. Instead of designers having to remember specific colour codes (like "grey-3" or "blue-500"), we created tokens named by their function or intent, such as "outline" or "negative-alert". Quantium products are often white-labelled or rebranded for external clients. Previously, redesigning a product to match a client's brand required months of resourcing, manually replacing hard-coded tokens tied to Quantium's palette. With semantic tokens in place, the system became more "headless": we could define theme-able roles (like "negative-alert") and swap them out across brands without rebuilding the UI from scratch. This reduced the effort and cost of onboarding new clients and future-proofed the system for scale.
 
@@ -73,7 +73,7 @@ We introduced the EPIC framework and our new contribution approach through struc
 - Foundational issues were prioritised, leading to improvements in the design system
 - Fixes began to resolve multiple issues at once rather than causing new problems, which reduced rework and lowered the overall cost of maintaining the system
 
-{% figure "/img/design-system-cultural-change/figure-5.png", "Collaborative problem solving in practice — workshop output from the team" %}
+{% figure "/img/design-system-cultural-change/figure-5.png", "Collaborative problem solving in practice: workshop output from the team" %}
 
 ## Key learnings
 

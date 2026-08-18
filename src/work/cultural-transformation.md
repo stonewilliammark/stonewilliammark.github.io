@@ -39,15 +39,15 @@ One of the most effective methods I used was introducing user archetypes based o
 Between them, the three gave the organisation a shared vocabulary for user needs and a way to see how differently customers interact with our products.
 
 {% figure "/img/cultural-transformation/figure-1.png", "The product archetypes illustration cards introduced to the organisation" %}
-{% figure "/img/cultural-transformation/figure-2.png", "Archetype card detail — the Experts profile" %}
-{% figure "/img/cultural-transformation/figure-3.png", "Archetype card detail — the Explorers profile" %}
-{% figure "/img/cultural-transformation/figure-4.png", "Archetype card detail — the So Whater's profile" %}
+{% figure "/img/cultural-transformation/figure-2.png", "Archetype card detail: the Experts profile" %}
+{% figure "/img/cultural-transformation/figure-3.png", "Archetype card detail: the Explorers profile" %}
+{% figure "/img/cultural-transformation/figure-4.png", "Archetype card detail: the So Whater's profile" %}
 
 ## The insight that changed everything
 
 The breakthrough was getting the organisation to recognise that even the most technical users eventually need to communicate findings to stakeholders who want clear, actionable insights. I shared this perspective in forums across the organisation. It resonated with leadership, who quickly adopted both the language and concept in their own communications. That made user-centred design relevant to everyone: all data analysis ultimately has to deliver an insight someone can act on.
 
-{% figure "/img/cultural-transformation/figure-5.png", "\"Imagine trying to build a product for everyone?\" — the bullseye illustration that reframed the conversation" %}
+{% figure "/img/cultural-transformation/figure-5.png", "The bullseye illustration that reframed the conversation: \"Imagine trying to build a product for everyone?\"" %}
 
 ## Breaking the expert feedback loop
 
@@ -89,7 +89,7 @@ The shift changed how products were conceived and delivered:
 - **Faster delivery cycles:** With clearer priorities based on user needs, teams could build and ship more efficiently.
 - **Evidence-based decisions:** User feedback shaped product decisions, often challenging internal assumptions.
 
-{% figure "/img/cultural-transformation/figure-7.png", "From data to insight-led solution — a spreadsheet export alongside the insight-led product interface" %}
+{% figure "/img/cultural-transformation/figure-7.png", "From data to insight-led solution: a spreadsheet export alongside the insight-led product interface" %}
 
 ## Key learnings for cultural transformation
 

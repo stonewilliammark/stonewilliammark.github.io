@@ -15,7 +15,7 @@ order: 1
 
 ## Spotting an opportunity to enhance our profiling service
 
-Our organisation's profiling services delivered insights, but the way customers experienced them could be better. As the sole designer, I identified several ways we could improve. Customers received insights through multiple formats—Excel files, PDFs, PowerPoints—often needing extra explanation before they could get the full value.
+Our organisation's profiling services delivered insights, but the way customers experienced them could be better. As the sole designer, I identified several ways we could improve. Customers received insights through multiple formats (Excel files, PDFs, PowerPoints), often needing extra explanation before they could get the full value.
 
 This presented both customer experience challenges and business opportunities:
 
@@ -55,17 +55,17 @@ Users with limited skill who frequently ask 'so what?' when shown data visuals, 
 - Uncertain about identifying insights alone, often waits for a peer to request an insight.
 - Relies on peers or analysts to clarify the significance of data insights.
 
-{% figure "/img/ai-driven-profiling/figure-1.png", "The three user archetypes — Experts, Explorers and So Whater's — used to scope the proof of concept" %}
+{% figure "/img/ai-driven-profiling/figure-1.png", "The three user archetypes used to scope the proof of concept: Experts, Explorers and So Whater's" %}
 
 ## Creating alignment through collaborative discovery
 
-In the first week, I helped facilitate a full-day workshop bringing together our cross-functional team—the head of product, analytics lead, engineers, and customer team representatives. We mapped the complete journey for marketing users, from problem identification through campaign implementation. This showed us exactly where our solution could add the most value: the "producing insights and analysing" phase of the journey.
+In the first week, I helped facilitate a full-day workshop bringing together our cross-functional team: the head of product, analytics lead, engineers, and customer team representatives. We mapped the complete journey for marketing users, from problem identification through campaign implementation. This showed us exactly where our solution could add the most value: the "producing insights and analysing" phase of the journey.
 
 The alignment created immediate momentum. The customer team scheduled recurring interviews with potential users while we refined our solution scope. From there, we ran daily whiteboard sessions to discuss ideas, map user needs, and agree on direction, creating a feedback loop that kept the project focused.
 
 {% figure "/img/ai-driven-profiling/figure-2.png", "The full-day discovery workshop bringing the team together around the problem" %}
 
-## The breakthrough - from metrics to intent
+## The breakthrough: From metrics to intent
 
 The biggest shift was in our thinking. We moved from metric-based profiling (age, affluence, life stage) to intent-based profiling that directly answered business questions:
 
