@@ -161,7 +161,12 @@ export default function (eleventyConfig) {
     defaultAttributes: {
       loading: "lazy",
       decoding: "async",
-      sizes: "(max-width: 860px) 100vw, 1336px",
+      // Matches --container. Correct for the case-study hero and figures, which
+      // fill it. Card thumbs and the About portrait render at ~472px and ~468px,
+      // so they are still over-declared by ~2.2x — a payload cost on 1x displays,
+      // not a correctness bug, and fixing it properly means per-role sizes rather
+      // than one default.
+      sizes: "(max-width: 860px) 100vw, 1040px",
     },
   });
 

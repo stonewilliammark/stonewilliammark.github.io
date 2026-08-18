@@ -653,8 +653,15 @@ button {
   background: #ebebeb;
 }
 
+/* Equal specificity with .pill-link:hover (both 0-2-0), so source order decided
+   and this killed the hover outright — the "View all work" pill in the next-case
+   block had no hover feedback at all. */
 .section--surface .pill-link {
   background: var(--material);
+}
+
+.section--surface .pill-link:hover {
+  background: var(--material-hover);
 }
 
 /* Work card (Figma 2227:7958) ---------------------------------------------
@@ -681,11 +688,6 @@ button {
 @media (hover: hover) {
   .card:hover {
     background: var(--material-hover);
-  }
-
-  .card:hover .card__title a {
-    text-decoration: underline;
-    text-underline-offset: 3px;
   }
 
   .card:hover .panel {
@@ -756,14 +758,21 @@ button {
   gap: 1rem;
 }
 
-/* 16:9, not the mocks' 620/472 (1.31:1). The card has no height of its own —
-   `align-items: center` sizes the row to the taller column, and that was always
-   the image. At 620px wide the text column reaches ~358px against a 472px
-   panel, so every card carried ~114px of dead space split top and bottom. 16:9
-   drops the panel to 349px, takes the card from 536px to 413px (−23%), and
-   makes the text the constraint instead of the filler. */
+/* The thumb's own ratio, so nothing is cropped. 16:9 was the right call at a
+   1336px container, where the panel would otherwise have been 472px against a
+   ~358px text column and every card carried ~114px of dead space — but it cost
+   26% of every image, top and bottom. At the 1040px container the columns are
+   472px, so the panel is 359px and the wrapped text column is ~356px: they meet
+   on their own. Text is the constraint, the whole image is visible, and the card
+   lands at ~423px against 413px under 16:9.
+
+   Do not switch to object-fit: contain to achieve the same thing. The source is a
+   TALLER ratio than any wider box, so contain gives side bars, not letterboxing —
+   and the exports have opaque light corners baked in (#f7f7f7 on thumbs), which
+   any crop shallower than ~40 source px per edge exposes as notches inside the
+   dark panel. Matching the ratio avoids the question entirely. */
 .card .panel {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1240 / 944;
   width: 100%;
 }
 
@@ -821,6 +830,14 @@ button {
   list-style: none;
   background: var(--material);
   border-radius: var(--radius-pill);
+}
+
+/* The li is the flex item, not the button, and an empty inline-block button's
+   baseline is its own bottom edge — so the li's line box reserved descender space
+   BELOW the dot and align-items: center put the dot ~3.5px low. Making the li a
+   flex container hands the centring to the button itself. */
+.carousel__dots li {
+  display: flex;
 }
 
 .carousel__dot {
@@ -890,6 +907,17 @@ button {
   padding: var(--card-pad);
   background: var(--material);
   border-radius: var(--radius-card);
+}
+
+/* The About bio is 293 characters of body copy wearing .card__deck, so it was
+   simultaneously larger, tighter-leaded, lighter-weight and lower-contrast than
+   the text this site treats as readable — and --muted on the About card's
+   resolved #eeeeee measures 4.31:1, an actual AA failure rather than the 5.0:1 it
+   manages on white. Same diagnosis and same fix already applied to .case-body. */
+.about .card__deck {
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 .about__portrait {
@@ -1098,12 +1126,6 @@ button {
 
   .nav__brand {
     display: none;
-  }
-
-  /* The mobile card image is 313x238 — the same 620/472 crop, not a wide panel
-     (Figma 2227:8668). Narrow enough here that 4:3 costs nothing. */
-  .card .panel {
-    aspect-ratio: 620 / 472;
   }
 
   .nav__pill {
