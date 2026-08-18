@@ -76,16 +76,21 @@ Deliberate departures from the mocks:
   **Do not split `--container` into a separate token.** The carousel track reads it directly for
   `padding-inline` / `scroll-padding-inline`, and slide width is only algebraically identical to
   container content because both derive from it. `app.js` trusts the computed padding.
-- **One left edge on a case study** (2026-08-18, owner decision against a three-way Figma comparison).
-  Nav pill, Back pill, title, hero, deck, topic pills, headings, paragraphs, figures and captions all
-  start on the content edge. Prose still caps at `--measure` for its 68-character measure, so it ends
-  220px short on the right instead of being centred.
-  **This restores what `0cb8589` tried on 2026-08-11 and had reverted within the hour.** That revert was
-  correct at the time: a 1336px container with an 800px measure left 536px of dead space beside every
-  paragraph, which read as a bug. At 1040/820 the trailing space is 220px — ordinary editorial rag. The
-  centred alternative was shipped for one day and produced two competing left margins (236 and 346 at a
-  1512px viewport), with the title, deck and pills inset while the nav, Back pill and hero sat on the
-  edge. **Do not re-centre `.case-head > *` or `.case-body > *` without re-reading this.**
+- **A clean top block, then one centred reading column** (2026-08-18, owner decision against Figma
+  [`2287:8348`](https://www.figma.com/design/PiGt0QiXiX6ncBKSiFVF4X/Portfolio?node-id=2287-8348)). The
+  nav pill, Back pill, **title** and hero all take the full 1040px content width, so the top of the page
+  is four elements on one edge. Everything textual below — deck, topic pills, headings, paragraphs and
+  figure captions — sits in the centred 820px reading column, 110px inside that edge. Figures break back
+  out to the full width. At a 1512px viewport: content column 236→1276, reading column 346→1166. Two
+  edges, entered once.
+  **The title width was the actual defect, not the centring.** Capped at `--measure` and centred it made
+  the top read 236 → 236 → **346** → 236 → 346 — the alternation the owner reported as "the heading and
+  the back button and the image all jumping". A title conventionally runs wider than body copy anyway.
+  **Left-aligning the prose so the whole page shared one edge has been tried live twice and rejected on
+  sight both times** — `0cb8589` (2026-08-11, 1336px container, 536px of trailing space) and `d099647`
+  (2026-08-18, 1040px container, 220px). Narrowing the rag from 536 to 220 was not the fix; an
+  asymmetric right edge reads as broken at either size. **Do not left-align `.case-head > *` or
+  `.case-body > *` a third time.**
 - **The case-study title takes the full content width and uses `text-wrap: pretty`**, not the reading
   measure and not `balance`. At 820px it wrapped to three lines and `balance` chose to split "AI-driven"
   at its hyphen. The home hero `h1` and the section titles keep `balance` — they are short centred

@@ -444,16 +444,17 @@ button {
   gap: 0.75rem;
 }
 
-/* Capped to the prose measure and left-aligned, so a caption under a full-width
-   figure lands on the same edge as the prose it explains. No caption renders yet:
-   every {% figure %} call passes two arguments, so the shortcode's third
-   (caption) is always empty. */
+/* Capped to the prose measure and centred, so a caption under a full-width figure
+   lands on the prose column it explains rather than on the figure's own edge.
+   width: 100% is load-bearing — see .case-head > *. No caption renders yet: every
+   {% figure %} call passes two arguments, so the shortcode's third (caption) is
+   always empty. */
 .figure__caption {
   width: 100%;
   font-size: 0.9375rem;
   color: var(--muted);
   max-width: var(--measure);
-  margin-inline: 0;
+  margin-inline: auto;
 }
 
 /* Nav — a floating pill, not a bar (Figma 2227:7927 / 2227:7928) ----------- */
@@ -941,24 +942,33 @@ button {
   gap: var(--block);
 }
 
-/* The head sits on the same reading axis as the body. Before this, the title,
-   deck and topic pills ran the full 1336px container while the prose below them
-   was capped at 720 — a 308px step in the left edge, and a deck measuring ~98
-   characters directly above 69-character paragraphs.
+/* The deck and the topic pills sit on the same reading axis as the body — the
+   reading column is entered once, here, and holds all the way down. Before this,
+   they ran the full 1336px container while the prose below them was capped at 720:
+   a 308px step in the left edge, and a deck measuring ~98 characters directly
+   above 69-character paragraphs.
 
-   LEFT, not centred. Centring put the title, deck and topic pills 110px inside
-   the edge that the nav pill, Back pill and hero all sit on, so reading down the
-   page the left margin alternated 236 -> 346 -> 236 -> 346 at a 1512px viewport.
-   The head is a title block, not prose: it takes the column edge. */
+   Centred, not left. Left-aligned prose has now been tried live twice and
+   rejected on sight both times — 0cb8589 on 2026-08-11 (536px of trailing space)
+   and d099647 on 2026-08-18 (220px). The narrower rag was not the fix; the owner
+   reads any asymmetric right edge as broken. Owner decision 2026-08-18 against
+   Figma 2287:8348.
+
+   width: 100% is load-bearing: an auto inline margin on a flex item suppresses
+   align-items: stretch, so without it a short deck would shrink to its content
+   instead of filling the measure. */
 .case-head > * {
   width: 100%;
   max-width: var(--measure);
-  margin-inline: 0;
+  margin-inline: auto;
 }
 
-/* The hero and the title both take the full content width. A title conventionally
-   runs wider than body copy, and at 1040 this one wraps to two lines instead of
-   three. */
+/* The title and the hero take the full content width, which puts them on the same
+   left edge as the nav pill and the Back pill — four elements, one clean edge, and
+   the step below them happens once. The title being capped at --measure and
+   centred is what made the top of the page alternate 236 -> 346 -> 236 -> 346 at a
+   1512px viewport. A title conventionally runs wider than body copy anyway, and at
+   1040 this one wraps to two lines instead of three. */
 .case-head > .panel,
 .case-head > .h1 {
   max-width: none;
@@ -1032,20 +1042,19 @@ button {
    full 1336px. The mocks ran body text the full container width, which measured
    ~129 characters per line at 1440px — nearly twice the readable range.
 
-   LEFT, not centred, so the whole page shares one left edge. 0cb8589 tried
-   left-alignment on 2026-08-11 and was reverted within the hour because it left
-   536px of dead space beside every paragraph, which read as a bug. That was a
-   1336px container with an 800px measure. At 1040 with an 820px measure the
-   trailing space is 220px, which is ordinary editorial rag rather than a hole —
-   and centring cost a second left margin, which is worse. Owner decision
-   2026-08-18, taken against a three-way Figma comparison. */
+   CENTRED. Narrow prose with wide artwork is the standard editorial pattern, and
+   the figures then bleed symmetrically either side. Left-aligning the prose so the
+   page shared one edge was tried live twice and rejected on sight both times —
+   0cb8589 (2026-08-11, 1336px container, 536px of trailing space) and d099647
+   (2026-08-18, 1040px container, 220px). Narrowing the rag was not the fix. Do not
+   try a third time without reading Decisions/2026-08-18c. */
 .case-body > * {
   max-width: var(--measure);
-  margin-inline: 0;
+  margin-inline: auto;
 }
 
-/* Figures take the full content width, so they extend 220px past the prose on the
-   right while sharing its left edge. */
+/* Figures take the full content width, so they sit 110px outside the prose column
+   on both sides — the one deliberate break-out in the body. */
 .case-body > .figure {
   max-width: none;
 }
