@@ -65,20 +65,33 @@ Deliberate departures from the mocks:
 
 - **No contact form, and no footer** (2026-08-11). The "Want to connect?" section and the footer were
   both removed from the design. Contact lives in the nav CTA, the hero, and the About card.
-- **Three width tiers on a case study** (2026-08-17). The mocks ran everything at 1336px.
-  `--measure` (720px) carries the title, deck, topic pills, headings, prose and captions;
-  `--media` (1040px) carries figures; only the hero keeps the full `--container` 1336px. At 1440px
-  that is one reading edge at x=360, figures at x=200 and the hero at x=52. Capping prose alone
-  (2026-08-16) left a 308px step in the left edge and a deck measuring ~98 characters, which is what
-  this replaced. An even earlier cap (`0cb8589`) was reverted because left-aligned prose beside
-  full-width figures left 536px of dead space — centring the column is the fix.
-- **Work cards at 16:9** (2026-08-16), not the mocks' 620/472. The card takes its height from the panel,
-  and at 4:3 the text column left ~114px of dead space. Below 640px the mocks' 4:3 crop returns.
+- **One content width, 1040px** (2026-08-18). The mocks ran everything at 1336px. `--container` now
+  carries the nav pill, hero, every figure, every card, the section heads, the back row, the next-case
+  block and the all-work list — one column at x=200 on a 1440px viewport. Prose caps at `--measure`
+  (820px, ~68 characters) and sits 110px inside that. A single shared width for text and images is not
+  achievable: 1040px at 68 characters needs ~28px body, and `--step-h2` is capped at 32px, so the
+  heading hierarchy would collapse. Two earlier attempts are recorded in git — a three-tier system
+  (2026-08-17) that read as three unrelated systems, and prose-only capping (2026-08-16) that left a
+  308px step in the left edge.
+  **Do not split `--container` into a separate token.** The carousel track reads it directly for
+  `padding-inline` / `scroll-padding-inline`, and slide width is only algebraically identical to
+  container content because both derive from it. `app.js` trusts the computed padding.
+- **Body type reaches its designed 24px** (2026-08-18). `--step-body` was the only type token that
+  never got there — its clamp maxed at 24px but needed a 2377px viewport, so it rendered 20.72px at
+  1440 while every heading was saturated from ~1000px. Heading-to-body contrast fell as the viewport
+  widened, which is why headings looked squashed into the measure. Consequently `.case-body h3` is
+  1.75rem (a 1.25rem h3 would be smaller than its own paragraphs), and card title/deck maxima dropped
+  32→28 and 24→20 for the narrower 472px card columns.
+- **Card images at their native 1240/944 ratio** (2026-08-18), not the mocks' fixed panel. 16:9
+  (2026-08-16) cut card height but cropped 26% of every image. At the 1040px container the columns are
+  472px, so the panel at native ratio is 359px and the wrapped text column ~356px — they meet, so the
+  height saving survives with zero crop. **Do not use `object-fit: contain` instead:** the source is a
+  taller ratio than any wider box so it gives side bars, and the exports have opaque light corners
+  baked in (~40px per edge) that any shallow crop exposes as notches.
 - **No "Skills" nav item.** The mocks had the link but no such page was ever designed.
-- **The nav pill hugs its contents and centres** (2026-08-17), rather than spanning the container as
-  the mocks have it. A 1336px pill left ~600px of empty glass and matched every dark figure panel
-  exactly. The wordmark alignment the full width was protecting had already stopped meaning anything
-  once the reading column moved off that edge.
+- **The nav pill spans the content width**, as the mocks have it. It briefly hugged and centred
+  (2026-08-17) to escape 1336px of mostly-empty glass, but at ~450px it read as too small — the
+  container width was the real problem. At 1040px the mocks' original reasoning holds again.
 - **The nav adapts over dark artwork** (2026-08-17), which the mocks do not describe. The pill is
   sticky and case-study figures are 472px of near-black, so `--material` resolved to ~#3a3a3a and
   `--ink` measured **1.48:1** — a live WCAG failure across most of the scroll, not a polish item.
