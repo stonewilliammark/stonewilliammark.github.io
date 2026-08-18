@@ -936,10 +936,17 @@ button {
 
 /* Case study page --------------------------------------------------------- */
 
+/* --section-gap between the Back band and the title box, which is the block
+   rhythm the mock uses throughout the head (2227:8996 → 2227:8998 is 56px, and
+   so is the hero → first section step). 16px of it is already the back band's
+   own bottom padding, hence the subtraction — the two together read as 56px at
+   desktop and 32px on a phone. Without this the title sat 16px under a 51px
+   pill, which is tight against a 64px heading. */
 .case-head {
   display: flex;
   flex-direction: column;
   gap: var(--block);
+  padding-top: calc(var(--section-gap) - 16px);
 }
 
 /* The deck and the topic pills sit on the same reading axis as the body — the
